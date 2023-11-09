@@ -23,5 +23,11 @@ public class Scores {
     public double getScore(Attribute attribute) {
         return values[attribute.ordinal()];
     }
+
+    public void applyScores(Scores s) {
+        for (int i = 0; i < this.values.length; i++) {
+            this.values[i] *= s.values[i];
+        }
+    }
     }
 }
