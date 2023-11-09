@@ -11,4 +11,8 @@ public class Option {
     public int getID() {
         return this.id;
     }
+    public void makeSelection(Player p) {
+        outcome.applyResults(p);
+        outcome.setNextChoice(p);
+    }
 }
