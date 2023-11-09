@@ -19,5 +19,9 @@ public class Scores {
     public Scores(double health, double strength, double good, double bad, double neutral) {
         this.values = new double[]{health, strength, good, bad, neutral};
     }
+
+    public double getScore(Attribute attribute) {
+        return values[attribute.ordinal()];
+    }
     }
 }
