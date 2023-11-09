@@ -34,4 +34,9 @@ public class Game {
     public Game() {
         
     }
+
+    // TO BE IMPLEMENTED
+    public static Choice getChoice(int id) {
+        return new Choice();
+    }
 }
