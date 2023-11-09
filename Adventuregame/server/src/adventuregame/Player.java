@@ -19,4 +19,12 @@ public class Player {
     public Scores getScores() {
         return this.scores;
     }
+
+    public void makeChoice(int optionID) {
+        currentChoice.selectOption(this, optionID);
+    }
+
+    public void applyScores(Scores s) {
+        this.scores.applyScores(s);
+    }
 }
