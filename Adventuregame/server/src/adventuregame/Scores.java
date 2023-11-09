@@ -29,5 +29,13 @@ public class Scores {
             this.values[i] *= s.values[i];
         }
     }
+
+    public boolean isGreaterThan(Scores s) {
+        for (int i = 0; i < s.values.length; i++) {
+            if (this.values[i] <= s.values[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 }
