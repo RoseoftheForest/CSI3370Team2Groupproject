@@ -33,9 +33,13 @@ public class Player {
         this.scores = s;
     }
 
+    public void setSettings(Settings s) {
+        this.settings = s;
+    }
+
     public void logIn() {
         this.authenticated = true;
-        this.settings = Game.loadSettings(this.id);
+        Game.loadSettings(this);
     }
 
     public void logOut() {

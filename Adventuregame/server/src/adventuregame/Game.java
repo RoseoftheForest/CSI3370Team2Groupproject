@@ -42,15 +42,15 @@ public class Game {
 
     // TO BE IMPLEMENTED
     // Should return the default settings if the player hasn't modified the settings, or whatever their settings were if they have saved settings.
-    public static Settings loadSettings(String playerID) {
-        return new Settings();
+    public static void loadSettings(Player p) {
+        p.setSettings(new Settings());
     }
 
     public static void loadGame(Player p) {
         startNewGame(p);
     }
     public static void startNewGame(Player p) {
-        p.scores = new Scores();
+        p.setScores(new Scores());
         p.setChoice(choices.get(0)); // set the players next choice to the first choice
     }
 }
