@@ -7,9 +7,10 @@ public class Player {
     Scores scores;
     Settings settings;
     double progress;
+    boolean authenticated;
     
     public Player(String id) {
-        
+        this.authenticated = false;
     }
 
     public void setChoice(Choice c) {
@@ -26,5 +27,14 @@ public class Player {
 
     public void applyScores(Scores s) {
         this.scores.applyScores(s);
+    }
+
+    public void logIn() {
+        this.authenticated = true;
+        this.settings = Game.loadSettings(this.id);
+    }
+
+    public void logOut() {
+        this.authenticated = false;
     }
 }

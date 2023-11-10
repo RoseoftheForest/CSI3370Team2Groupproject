@@ -39,4 +39,10 @@ public class Game {
     public static Choice getChoice(int id) {
         return new Choice();
     }
+
+    // TO BE IMPLEMENTED
+    // Should return the default settings if the player hasn't modified the settings, or whatever their settings were if they have saved settings.
+    public static Settings loadSettings(String playerID) {
+        return new Settings();
+    }
 }
