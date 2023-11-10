@@ -29,6 +29,10 @@ public class Player {
         this.scores.applyScores(s);
     }
 
+    public void setScores(Scores s) {
+        this.scores = s;
+    }
+
     public void logIn() {
         this.authenticated = true;
         this.settings = Game.loadSettings(this.id);
