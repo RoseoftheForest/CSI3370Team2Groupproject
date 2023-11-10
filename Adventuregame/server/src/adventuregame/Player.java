@@ -41,4 +41,8 @@ public class Player {
     public void logOut() {
         this.authenticated = false;
     }
+
+    public void createGame() {
+        Game.loadGame(this);
+    }
 }
