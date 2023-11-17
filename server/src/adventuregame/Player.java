@@ -46,7 +46,7 @@ public class Player {
         this.authenticated = false;
     }
 
-    public void createGame() {
+    public void createGame() throws Exception {
         Game.loadGame(this);
     }
 }
