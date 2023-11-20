@@ -51,4 +51,17 @@ public class Attack {
     public double getTrueDamage() {
         return this.trueDamage;
     }
+
+    public int getDamage(Stats attackerStats, Stats defenderStats) {
+        double b_dmg = (getBaseDamage() * attackerStats.getBaseAtk()) / defenderStats.getBaseDef();
+        double a_dmg = (getAbilityDamage() * attackerStats.getAbilityAtk()) / defenderStats.getAbilityDef();
+        double t_dmg = (getTrueDamage());
+        
+        int dmg = (int)(DAMAGE_MULTIPLIER * (b_dmg + a_dmg + t_dmg));
+        return dmg;
+    }
+    public void useAttack(Entity attacker, Entity defender) {
+        int damage = getDamage(attacker.getStats(), defender.getStats());
+        defender.takeDamage(damage);
+    }
 }
