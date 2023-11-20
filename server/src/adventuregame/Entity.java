@@ -5,12 +5,16 @@ public class Entity {
     private Stats stats;
     private int health;
     private boolean isAlive;
+    private Attack basicAttack;
+    private Attack specialAttack;
 
     public Entity(String name, Stats stats) {
         this.name = name;
         this.stats = stats;
         heal();
         setAliveStatus();
+        setBasicAttack(new Attack(2, 0, 0));
+        setSpecialAttack(new Attack(0, 2, 0));
     }
 
     public String getName() {
@@ -24,6 +28,12 @@ public class Entity {
     }
     public boolean isAlive() {
         return this.isAlive;
+    }
+    public Attack getBasicAttack() {
+        return this.basicAttack;
+    }
+    public Attack getSpecialAttack() {
+        return this.specialAttack;
     }
 
     public void heal() {
@@ -40,8 +50,22 @@ public class Entity {
     public void setAliveStatus() {
         this.isAlive = checkDeath();
     }
+    public void setBasicAttack(Attack attack) {
+        this.basicAttack = attack;
+    }
+    public void setSpecialAttack(Attack attack) {
+        this.specialAttack = attack;
+    }
+
+    public void useBasicAttack(Entity defenderEntity) {
+
+    }
+    public void useSpecialAttack(Entity defenderEntity) {
+
+    }
 
     public void attack(Entity defenderEntity) {
+        
         int damage = getStats().calculateDamageDealt(defenderEntity.getStats());
         defenderEntity.takeDamage(damage);
     }
