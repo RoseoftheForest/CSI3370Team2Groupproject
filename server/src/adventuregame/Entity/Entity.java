@@ -1,4 +1,4 @@
-package adventuregame;
+package adventuregame.Entity;
 
 public class Entity {
     private String name;

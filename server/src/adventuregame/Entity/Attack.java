@@ -1,8 +1,6 @@
-package adventuregame;
+package adventuregame.Entity;
 
 import java.util.Random;
-
-import adventuregame.Entity.Entity;
 
 public class Attack {
     private double baseDamage;

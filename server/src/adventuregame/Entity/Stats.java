@@ -1,4 +1,4 @@
-package adventuregame;
+package adventuregame.Entity;
 
 public class Stats {
     private int baseAtk;
