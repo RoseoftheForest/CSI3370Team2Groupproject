@@ -1,7 +1,5 @@
 package adventuregame;
 
-import java.util.Random;
-
 public class Stats {
     private int baseAtk;
     private int abilityAtk;
@@ -67,20 +65,5 @@ public class Stats {
         this.baseDef += modifiers.getBaseDef();
         this.abilityDef += modifiers.getAbilityDef();
         this.max_health += modifiers.getMaxHealth();
-    }
-
-    public int calculateDamageDealt(Stats defender) {
-        Random rand = new Random();
-
-        double baseDamage = 25 * ((getBaseAtk() / (double)defender.getBaseDef()) + (getAbilityAtk() / (double)defender.getAbilityDef()));
-        double random = rand.nextInt(20) + 80;
-        int damage = (int)(baseDamage * random);
-
-        
-        // int damage = (getPhyAtk() - defender.getPhyDef()) + (getMgcAtk() - defender.getMgcDef());
-        if (damage < 1) {
-            return 1;
-        }
-        return damage;
     }
 }
