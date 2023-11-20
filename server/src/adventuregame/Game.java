@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import adventuregame.Entity.Player;
+import adventuregame.Entity.Stats;
 import adventuregame.Room.Room;
 
 public class Game {

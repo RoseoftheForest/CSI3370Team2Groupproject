@@ -1,6 +1,6 @@
 package adventuregame.Item;
 
-import adventuregame.Stats;
+import adventuregame.Entity.Stats;
 
 public class Item {
     private int id;

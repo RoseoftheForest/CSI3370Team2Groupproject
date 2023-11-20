@@ -2,7 +2,7 @@ package adventuregame.Item;
 
 import java.util.Random;
 
-import adventuregame.Stats;
+import adventuregame.Entity.Stats;
 
 public class ItemDrop extends Item {
     // integer 1 - 100 indicating drop percentage
