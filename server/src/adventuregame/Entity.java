@@ -58,19 +58,13 @@ public class Entity {
     }
 
     public void useBasicAttack(Entity defenderEntity) {
-
+        basicAttack.useAttack(this, defenderEntity);
     }
     public void useSpecialAttack(Entity defenderEntity) {
-
+        specialAttack.useAttack(this, defenderEntity);
     }
 
-    public void attack(Entity defenderEntity) {
-        
-        int damage = getStats().calculateDamageDealt(defenderEntity.getStats());
-        defenderEntity.takeDamage(damage);
-    }
-
-    private void takeDamage(int damage) {
+    public void takeDamage(int damage) {
         if (getHealth() < damage) {
             damage = getHealth();
         }
