@@ -5,7 +5,6 @@ import adventuregame.Game.SoundOption;
 import adventuregame.Game.TextSizeOption;
 import adventuregame.Game.TextSpeedOption;
 
-
 public class Settings {
     private static TextSpeedOption DEFAULT_TEXT_SPEED = adventuregame.Game.TextSpeedOption.NORMAL;
     private static TextSizeOption DEFAULT_TEXT_SIZE = adventuregame.Game.TextSizeOption.MEDIUM;
