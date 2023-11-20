@@ -128,10 +128,10 @@ public class Game {
     public void saveStats(Player player) {
         Stats stats = player.getStats();
         int maxHealth = stats.getMaxHealth();
-        int phyAtk = stats.getPhyAtk();
-        int magAtk = stats.getMgcAtk();
-        int phyDef = stats.getPhyDef();
-        int magDef = stats.getMgcDef();
+        int phyAtk = stats.getBaseAtk();
+        int magAtk = stats.getAbilityAtk();
+        int phyDef = stats.getBaseDef();
+        int magDef = stats.getAbilityDef();
         int playerID = player.getID();
         // save stats in database for the player
     }
