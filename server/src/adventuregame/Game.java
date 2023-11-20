@@ -40,6 +40,23 @@ public class Game {
     private ArrayList<Room> rooms;
     private ArrayList<Player> players;
     
+    public void logIn(int playerID) {
+        Player p = getPlayer(playerID); // attempt to load player from existing memory
+        if (p != null) {
+            if (!p.isLoggedIn()) {
+                p.logIn();
+            }
+            return;
+        }
+
+        // otherwise, search database for player
+        // otherwise, create new player, and save in database
+    }
+    public void logOut(int playerID) {
+        Player p = getPlayer(playerID);
+        if (p == null || !p.isLoggedIn()) {return;} // player is not logged in
+        p.logOut();
+    }
 
     }
 
