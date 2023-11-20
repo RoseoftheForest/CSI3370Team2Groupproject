@@ -1,4 +1,6 @@
-package adventuregame;
+package adventuregame.Room;
+
+import adventuregame.Entity.Monster;
 
 public class FightRoom extends Room {
     private Monster monster;

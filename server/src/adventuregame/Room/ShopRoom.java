@@ -1,6 +1,8 @@
-package adventuregame;
+package adventuregame.Room;
 
 import java.util.ArrayList;
+
+import adventuregame.Item.ShopItem;
 
 public class ShopRoom extends Room {
     private ArrayList<ShopItem> items;

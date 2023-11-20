@@ -1,4 +1,6 @@
-package adventuregame;
+package adventuregame.Item;
+
+import adventuregame.Stats;
 
 public class ShopItem extends Item {
     private int cost;

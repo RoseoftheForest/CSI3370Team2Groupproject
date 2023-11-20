@@ -2,6 +2,8 @@ package adventuregame;
 
 import java.util.Random;
 
+import adventuregame.Entity.Entity;
+
 public class Attack {
     private double baseDamage;
     private int baseVariation; // 0 to 100
