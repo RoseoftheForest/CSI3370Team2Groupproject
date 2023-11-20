@@ -1,4 +1,4 @@
-package adventuregame;
+package adventuregame.Room;
 
 public class Room {
     private int id;

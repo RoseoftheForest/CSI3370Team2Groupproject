@@ -1,6 +1,8 @@
-package adventuregame;
+package adventuregame.Entity;
 
 import java.util.Random;
+
+import adventuregame.ItemDrop;
 
 
 public class Monster extends Entity {
