@@ -66,8 +66,16 @@ public class Game {
         p.setSettings(new Settings());
     }
 
-    public static void loadGame(Player p) {
-        startNewGame(p);
+    public Player getPlayer(int playerID) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getID() == playerID) {
+                return players.get(i);
+            }
+        }
+        return null;
+    }
+    public void deletePlayer(int playerID) {
+        players.removeIf(p -> (p.getID() == playerID));
     }
 
     public void nextRoom(Player player) {
