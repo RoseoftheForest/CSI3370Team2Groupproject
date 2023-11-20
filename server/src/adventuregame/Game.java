@@ -58,11 +58,18 @@ public class Game {
         p.logOut();
     }
 
+    // may need to remove Settings argument in favor of json
+    public void selectSettings(int playerID, Settings settings) {
+        Player p = getPlayer(playerID);
+        if (p == null) {return;}
+        p.setSettings(settings);
     }
 
     // TO BE IMPLEMENTED
     // Should return the default settings if the player hasn't modified the settings, or whatever their settings were if they have saved settings.
-    public static void loadSettings(Player p) {
+    public void loadSettings(int playerID) {
+        Player p = getPlayer(playerID);
+        if (p == null) {return;}
         p.setSettings(new Settings());
     }
 
@@ -74,6 +81,61 @@ public class Game {
         }
         return null;
     }
+
+
+    public void startNewGame(int playerID) {
+        Player p = getPlayer(playerID);
+        p.reset();
+        nextRoom(p);
+    }
+    public void loadGame(int playerID) {
+        deletePlayer(playerID);
+        // load player's data here
+        Player player = new Player(playerID, "Placeholder");
+        player.setDepth(0);
+        player.setMoney(0);
+        player.setHealth(0);
+        player.setClass(null);
+        player.setSettings(null);
+        player.setStats(null);
+        player.setCurrentRoom(getRoom(0));
+    }
+
+    public void saveGame(int playerID) {
+        Player player = getPlayer(playerID);
+        if (player == null) {
+            return;
+        }
+        String name = player.getName();
+        int depth = player.getDepth();
+        int money = player.getMoney();
+        int health = player.getHealth();
+        int playerClass = player.getPlayerClass().ordinal();
+        int currentRoomID = player.getCurrentRoom().getID();
+        // save player data here
+        saveSettings(player);
+        saveStats(player);
+    }
+    public void saveSettings(Player player) {
+        Settings settings = player.getSettings();
+        int backgroundColor = settings.getBackgroundColor().ordinal();
+        int textSize = settings.getTextSize().ordinal();
+        int textSpeed = settings.getTextSpeed().ordinal();
+        int volume = settings.getVolume().ordinal();
+        int playerID = player.getID();
+        // save settings here
+    }
+    public void saveStats(Player player) {
+        Stats stats = player.getStats();
+        int maxHealth = stats.getMaxHealth();
+        int phyAtk = stats.getPhyAtk();
+        int magAtk = stats.getMgcAtk();
+        int phyDef = stats.getPhyDef();
+        int magDef = stats.getMgcDef();
+        int playerID = player.getID();
+        // save stats in database for the player
+    }
+
     public void deletePlayer(int playerID) {
         players.removeIf(p -> (p.getID() == playerID));
     }
