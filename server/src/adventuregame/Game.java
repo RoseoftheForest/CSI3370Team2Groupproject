@@ -1,6 +1,7 @@
 package adventuregame;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game {
     public enum SoundOption {
@@ -51,6 +52,36 @@ public class Game {
     public static void loadGame(Player p) {
         startNewGame(p);
     }
-    public static void startNewGame(Player p) {
+
+    public void nextRoom(Player player) {
+        player.incrementDepth();
+        player.setCurrentRoom(getValidRoom(player.getDepth()));
+    }
+
+    public Room getValidRoom(int depth) {
+        if (rooms.size() < 1) {
+            return null;
+        }
+        
+        ArrayList<Room> validRooms = new ArrayList<Room>();
+        for (int i = 0; i < rooms.size(); i++) {
+            if (rooms.get(i).isWithinDepth(depth)) {
+                validRooms.add(rooms.get(i));
+            }
+        }
+        if (validRooms.size() < 1) {
+            return rooms.get(0); // if there were no valid rooms, send to room 0
+        }
+        Random rand = new Random();
+        return validRooms.get(rand.nextInt(validRooms.size()));
+    }
+
+    public Room getRoom(int id) {
+        for (int i = 0; i < rooms.size(); i++) {
+            if (rooms.get(i).getID() == id) {
+                return rooms.get(i);
+            }
+        }
+        return rooms.get(0);
     }
 }
