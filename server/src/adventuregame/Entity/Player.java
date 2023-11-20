@@ -2,7 +2,6 @@ package adventuregame.Entity;
 
 import adventuregame.Game;
 import adventuregame.Settings;
-import adventuregame.Stats;
 import adventuregame.Game.PlayerClass;
 import adventuregame.Item.Item;
 import adventuregame.Item.ShopItem;
