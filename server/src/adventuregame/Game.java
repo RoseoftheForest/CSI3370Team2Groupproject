@@ -32,12 +32,14 @@ public class Game {
         WHITE,
         BLUE
     }
-    
-    static ArrayList<Choice> choices = new ArrayList<Choice>();
+    public enum PlayerClass {
+        FIGHTER
+    }
 
-    // TO BE IMPLEMENTED
-    public static Choice getChoice(int id) {
-        return new Choice();
+    private ArrayList<Room> rooms;
+    private ArrayList<Player> players;
+    
+
     }
 
     // TO BE IMPLEMENTED
@@ -50,7 +52,5 @@ public class Game {
         startNewGame(p);
     }
     public static void startNewGame(Player p) {
-        p.setScores(new Scores());
-        p.setChoice(choices.get(0)); // set the players next choice to the first choice
     }
 }
