@@ -133,9 +133,9 @@ public class Game {
         Stats stats = player.getStats();
         int maxHealth = stats.getMaxHealth();
         int phyAtk = stats.getBaseAtk();
-        int magAtk = stats.getAbilityAtk();
+        int magAtk = stats.getMagicAtk();
         int phyDef = stats.getBaseDef();
-        int magDef = stats.getAbilityDef();
+        int magDef = stats.getMagicDef();
         int playerID = player.getID();
         // save stats in database for the player
     }
