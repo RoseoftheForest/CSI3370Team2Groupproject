@@ -2,7 +2,15 @@ const Loading = () => {
 
     return (
         <div className="bg-dark p-3 text-center">
-            Loading...
+            <Spinner
+                color="light"
+                size="sm"
+            >
+                Loading...
+            </Spinner>
+            <span>
+                {' '}Loading...
+            </span>
         </div>
     );
 }
