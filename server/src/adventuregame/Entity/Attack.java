@@ -55,7 +55,7 @@ public class Attack {
         if (getType() == Type.MAGIC) {
             b_dmg = (getBaseDamage() * attackerStats.getMagicAtk()) / defenderStats.getMagicDef();
         } else if (getType() == Type.PHYSICAL) {
-            b_dmg = (getBaseDamage() * attackerStats.getBaseAtk()) / defenderStats.getBaseDef();
+            b_dmg = (getBaseDamage() * attackerStats.getPhyAtk()) / defenderStats.getBaseDef();
         }
         
         double t_dmg = (getTrueDamage());

@@ -1,14 +1,14 @@
 package adventuregame.Entity;
 
 public class Stats {
-    private int baseAtk;
+    private int phyAtk;
     private int magicAtk;
     private int baseDef;
     private int magicDef;
     private int max_health;
 
     public Stats() {
-        this.baseAtk = 0;
+        this.phyAtk = 0;
         this.magicAtk = 0;
         this.baseDef = 1;
         this.magicDef = 1;
@@ -23,12 +23,12 @@ public class Stats {
             this.magicDef = value;
         }
         
-        this.baseAtk = value;
+        this.phyAtk = value;
         this.magicAtk = value;
         this.max_health = value;
     }
-    public Stats(int baseAtk, int magicAtk, int baseDef, int magicDef, int maxHealth) {
-        this.baseAtk = baseAtk;
+    public Stats(int phyAtk, int magicAtk, int baseDef, int magicDef, int maxHealth) {
+        this.phyAtk = phyAtk;
         this.magicAtk = magicAtk;
         if (baseDef == 0) {
             this.baseDef = 1;
@@ -43,8 +43,8 @@ public class Stats {
         this.max_health = maxHealth;
     }
 
-    public int getBaseAtk() {
-        return this.baseAtk;
+    public int getPhyAtk() {
+        return this.phyAtk;
     }
     public int getMagicAtk() {
         return this.magicAtk;
@@ -60,7 +60,7 @@ public class Stats {
     }
 
     public void applyModifiers(Stats modifiers) {
-        this.baseAtk += modifiers.getBaseAtk();
+        this.phyAtk += modifiers.getPhyAtk();
         this.magicAtk += modifiers.getMagicAtk();
         this.baseDef += modifiers.getBaseDef();
         this.magicDef += modifiers.getMagicDef();

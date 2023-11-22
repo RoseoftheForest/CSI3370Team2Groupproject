@@ -132,7 +132,7 @@ public class Game {
     public void saveStats(Player player) {
         Stats stats = player.getStats();
         int maxHealth = stats.getMaxHealth();
-        int phyAtk = stats.getBaseAtk();
+        int phyAtk = stats.getPhyAtk();
         int magAtk = stats.getMagicAtk();
         int phyDef = stats.getBaseDef();
         int magDef = stats.getMagicDef();
