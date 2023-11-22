@@ -4,6 +4,7 @@ import { Container } from "reactstrap";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Loading from "./components/Loading"
 import Home from "./views/pages/Home";
 import Profile from "./views/pages/Profile";
 import Game from "./views/pages/Game";
@@ -23,7 +24,7 @@ const App = () => {
   }
 
   if (isLoading) {
-    return;
+    return <Loading />;
   }
 
   return (
