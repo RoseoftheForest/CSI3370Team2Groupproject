@@ -4,7 +4,7 @@ const { join } = require("path");
 
 const app = express();
 
-const port = process.env.SERVER_PORT || 5039;
+const port = process.env.SERVER_PORT || 3000;
 
 app.use(
     helmet({
