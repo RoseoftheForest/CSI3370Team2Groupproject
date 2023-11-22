@@ -1,5 +1,7 @@
 package adventuregame.Entity;
 
+import adventuregame.Entity.Attack.Type;
+
 public class Entity {
     private String name;
     private Stats stats;
@@ -13,8 +15,8 @@ public class Entity {
         this.stats = stats;
         heal();
         setAliveStatus();
-        setBasicAttack(new Attack(2, 0, 0));
-        setSpecialAttack(new Attack(0, 2, 0));
+        setBasicAttack(new Attack(Type.PHYSICAL, 2, 0));
+        setSpecialAttack(new Attack(Type.MAGIC, 2, 0));
     }
 
     public String getName() {
