@@ -3,9 +3,9 @@ import React from "react";
 const Settings = () => {
     const settings = [
         {"name": "Volume", "type": "RangeSlider", "range": [0, 10], "selected": 2},
-        {"name": "Text Speed", "type": "Button", "values": ["Instant", "Fast", "Normal", "Slow"], "selected": "Normal"},
-        {"name": "Text Size", "type": "Button", "values": ["Large", "Medium", "Small"], "selected": "Medium"},
-        {"name": "Background Color", "type": "Button", "values": ["Dark", "Light"], "selected": "Dark"}
+        {"name": "Text Speed", "type": "ButtonGroup", "values": ["Instant", "Fast", "Normal", "Slow"], "selected": "Normal"},
+        {"name": "Text Size", "type": "ButtonGroup", "values": ["Large", "Medium", "Small"], "selected": "Medium"},
+        {"name": "Background Color", "type": "ButtonGroup", "values": ["Dark", "Light"], "selected": "Dark"}
     ] // PLACEHOLDER
 
     let settingsComponent = [];
@@ -31,7 +31,7 @@ const Settings = () => {
                     </Col>
                 </Form.Group>
             </Form>;
-        } else if (settings[i].type === "Button") {
+        } else if (settings[i].type === "ButtonGroup") {
             const [ selected, setSelected ] = useState(null);
             let btns;
             for (let j = 0; j < settings[i].values.length; j++) {
