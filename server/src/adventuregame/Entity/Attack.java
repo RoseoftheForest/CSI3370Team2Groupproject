@@ -4,7 +4,8 @@ import java.util.Random;
 
 public class Attack {
     private double baseDamage;
-    private int baseVariation; // 0 to 100
+    private double minVariation; // 0 to 100
+    private double maxVariation;
     private double trueDamage;
     private Random random = new Random();
     private static double DAMAGE_MULTIPLIER = 5.0;
@@ -12,9 +13,9 @@ public class Attack {
 
     public Attack(double baseDamage, double abilityDamage, double trueDamage) {
         this.baseDamage = baseDamage;
-        this.abilityDamage = abilityDamage;
         this.trueDamage = trueDamage;
-        this.baseVariation = 0;
+        this.minVariation = 0;
+        this.maxVariation = 0;
     }
 
     public void setBaseDamage(double damage) {
@@ -23,17 +24,18 @@ public class Attack {
     public void setTrueDamage(double damage) {
         this.trueDamage = damage;
     }
-    public void setBaseVariation(int variation) {
-        this.baseVariation = variation;
+    public void setMinVariation(double variation) {
+        this.minVariation = variation;
     }
+    public void setMaxVariation(double variation) {
+        this.maxVariation = variation;
     }
 
     public double getBaseDamage() {
         return (this.baseDamage) * getBaseVariation();
     }
     private double getBaseVariation() {
-        return (random.nextInt(-baseVariation, baseVariation) + 100) / 100.0;
-    }
+        return (random.nextInt(((int)minVariation)*100, ((int)maxVariation)*100)) / 100.0;
     }
     public double getTrueDamage() {
         return this.trueDamage;
