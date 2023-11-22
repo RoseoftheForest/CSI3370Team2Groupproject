@@ -4,6 +4,7 @@ import { Container } from "reactstrap";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Error from "./components/Error"
 import Loading from "./components/Loading"
 import Home from "./views/pages/Home";
 import Profile from "./views/pages/Profile";
@@ -20,7 +21,7 @@ const App = () => {
   const { isLoading, error } = useAuth0();
 
   if (error) {
-    return <div>Oops... {error.message}</div>;
+    return <Error />;
   }
 
   if (isLoading) {
