@@ -46,6 +46,10 @@ public class Game {
 
     private ArrayList<Room> rooms;
     private ArrayList<Player> players;
+    private ArrayList<Item> tier1Items;
+    private ArrayList<Item> tier2Items;
+    private ArrayList<Item> tier3Items;
+    private ArrayList<Monster> monsters;
     private static Game uniqueInstance = null;
     
 
