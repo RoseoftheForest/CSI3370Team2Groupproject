@@ -10,9 +10,6 @@ public class Monster extends Entity {
     private int maxMoney;
     private int tier;
     private String description;
-    private int cooldown;
-    
-
 
     public Monster(String name, String description, Stats stats, int minMoney, int maxMoney, int tier) {
         super(name, stats);
@@ -29,15 +26,10 @@ public class Monster extends Entity {
         } else {
             this.tier = tier;
         }
-        this.cooldown = 0;
     }
 
     public Monster deepCopy() {
         return new Monster(getName(), getDescription(), getStats(), this.minMoney, this.maxMoney, getTier());
-    }
-
-    public void setCooldown(int cooldown) {
-        this.cooldown = cooldown;
     }
 
     public int getTier() {
