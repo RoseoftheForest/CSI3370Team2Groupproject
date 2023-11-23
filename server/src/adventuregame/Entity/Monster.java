@@ -5,14 +5,18 @@ import java.util.Random;
 import adventuregame.Game;
 
 public class Monster extends Entity {
+    private int id;
     private int minMoney;
     private int maxMoney;
     private int tier;
+    private String description;
     private int cooldown;
+    
 
 
-    public Monster(String name, Stats stats, int minMoney, int maxMoney) {
+    public Monster(String name, String description, Stats stats, int minMoney, int maxMoney, int tier) {
         super(name, stats);
+        this.description = description;
         if (minMoney > maxMoney) {
             this.maxMoney = minMoney;
             this.minMoney = maxMoney;
