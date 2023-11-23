@@ -28,6 +28,9 @@ public class Entity {
     public int getHealth() {
         return this.health;
     }
+    public double getHealthPercent() {
+        return (double)getHealth() / getStats().getMaxHealth();
+    }
     public boolean isAlive() {
         return this.isAlive;
     }
