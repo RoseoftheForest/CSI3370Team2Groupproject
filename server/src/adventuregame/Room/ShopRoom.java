@@ -13,7 +13,7 @@ public class ShopRoom extends Room {
     }
 
     public void addItem(ShopItem i) {
-        if (items.size() > 3) {
+        if (items.size() >= 3) {
             return;
         }
         items.add(i);
