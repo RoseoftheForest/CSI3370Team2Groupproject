@@ -18,4 +18,8 @@ public class ShopRoom extends Room {
         }
         items.add(i);
     }
+
+    public ShopItem getItem(int position) {
+        return items.get(position);
+    }
 }
