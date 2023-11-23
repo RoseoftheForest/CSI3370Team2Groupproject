@@ -96,7 +96,7 @@ public class Player extends Entity {
         if (item == null) {
             return;
         }
-        this.stats.applyModifiers(item.getModifiers());
+        getStats().applyModifiers(item.getModifiers());
     }
 
     public void defeatMonster(Monster monster) {
