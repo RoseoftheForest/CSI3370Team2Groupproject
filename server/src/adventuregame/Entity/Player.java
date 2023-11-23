@@ -101,7 +101,8 @@ public class Player extends Entity {
 
     public void defeatMonster(Monster monster) {
         addMoney(monster.getDroppedMoney());
-        collectItem(monster.dropItem());
+        // move to Game
+        // collectItem(monster.dropItem());
     }
 
     public void reset() {
