@@ -146,7 +146,7 @@ public class Game {
 
     public void nextRoom(Player player) {
         player.incrementDepth();
-        player.setCurrentRoom(getValidRoom(player.getDepth()));
+        player.setCurrentRoom(getValidRoom(player.getDepth()).deepCopy());
     }
 
     public Room getValidRoom(int depth) {
