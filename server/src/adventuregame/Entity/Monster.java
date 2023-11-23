@@ -8,6 +8,7 @@ public class Monster extends Entity {
     private int minMoney;
     private int maxMoney;
     private int tier;
+    private int cooldown;
 
 
     public Monster(String name, Stats stats, int minMoney, int maxMoney) {
@@ -24,9 +25,13 @@ public class Monster extends Entity {
         } else {
             this.tier = tier;
         }
+        this.cooldown = 0;
     }
 
     }
+
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
     }
 
     public int getTier() {
