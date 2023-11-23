@@ -256,6 +256,17 @@ public class Game {
 
         // send response
     }
+    public void buyItem(int playerID, int position) {
+        Player p = getPlayer(playerID);
+        if (p.getCurrentRoom().getClass() != ShopRoom.class) {
+            return;
+        }
+        ShopRoom room = (ShopRoom) p.getCurrentRoom();
+        
+        p.buyItem(room.getItem(position));
+        // send response
+    }
+
     public void nextRoom(int playerID) {
         Player player = getPlayer(playerID);
         player.incrementDepth();
