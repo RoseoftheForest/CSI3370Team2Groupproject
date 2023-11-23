@@ -90,7 +90,7 @@ public class Game {
     public void startNewGame(int playerID) {
         Player p = getPlayer(playerID);
         p.reset();
-        nextRoom(p);
+        nextRoom(playerID);
     }
     public void loadGame(int playerID) {
         deletePlayer(playerID);
