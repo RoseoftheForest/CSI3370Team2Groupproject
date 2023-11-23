@@ -32,6 +32,8 @@ public class Monster extends Entity {
         this.cooldown = 0;
     }
 
+    public Monster deepCopy() {
+        return new Monster(getName(), getDescription(), getStats(), this.minMoney, this.maxMoney, getTier());
     }
 
     public void setCooldown(int cooldown) {
