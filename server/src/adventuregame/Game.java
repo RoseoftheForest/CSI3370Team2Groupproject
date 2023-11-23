@@ -1,11 +1,17 @@
 package adventuregame;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import adventuregame.Entity.Damage;
+import adventuregame.Entity.Monster;
 import adventuregame.Entity.Player;
 import adventuregame.Entity.Stats;
+import adventuregame.Item.Item;
+import adventuregame.Room.FightRoom;
 import adventuregame.Room.Room;
+import adventuregame.Room.ShopRoom;
 
 public class Game {
     public enum SoundOption {
