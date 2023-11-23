@@ -24,4 +24,8 @@ public class Room {
     public boolean isWithinDepth(int depth) {
         return (getMinDepth() <= depth && getMaxDepth() >= depth);
     }
+
+    public Room deepCopy() {
+        return new Room(getID(), getMinDepth(), getMaxDepth());
+    }
 }
