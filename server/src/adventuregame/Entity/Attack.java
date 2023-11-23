@@ -60,8 +60,9 @@ public class Attack {
         int dmg = (int)(DAMAGE_MULTIPLIER * (b_dmg));
         return dmg;
     }
-    public void useAttack(Entity attacker, Entity defender) {
+    public int useAttack(Entity attacker, Entity defender) {
         int damage = getDamage(attacker.getStats(), defender.getStats());
         defender.takeDamage(damage);
+        return damage;
     }
 }
