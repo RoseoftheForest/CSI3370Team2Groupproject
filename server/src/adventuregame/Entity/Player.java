@@ -11,7 +11,6 @@ public class Player extends Entity {
     private int id;
     private int depth;
     private Game.PlayerClass playerClass;
-    private Stats stats;
     private int money;
     private Room currentRoom;
     private Settings settings;
