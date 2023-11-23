@@ -228,6 +228,34 @@ public class Game {
         System.out.println("Damage: " + monsterDamage + " | Attack: " + attackName);
         // send the attack that was used by the monster, the damage it did, and the new health of player and monster
     }
+    public void specialAttack(int playerID) {
+        Player p = getPlayer(playerID);
+        if (p.getCurrentRoom().getClass() != FightRoom.class) {
+            return;
+        }
+        FightRoom room = (FightRoom) p.getCurrentRoom();
+        
+        int playerDamage = p.useSpecialAttack(room.getMonster());
+        System.out.println("Damage: " + playerDamage);
+        if (!room.getMonster().isAlive()) {
+            p.defeatMonster(room.getMonster());
+            dropItem(room.getMonster(), p);
+            // send defeat monster response
+            return;
+        }
+
+        Damage monsterAttack = room.getMonster().attack(p);
+        int monsterDamage = monsterAttack.getAmount();
+        String attackName = monsterAttack.getName();
+        if (!p.isAlive()) {
+            System.out.println("Game Over.");
+            p.reset();
+            // send game over
+        }
+        System.out.println("Damage: " + monsterDamage + " | Attack: " + attackName);
+
+        // send response
+    }
     public void nextRoom(int playerID) {
         Player player = getPlayer(playerID);
         player.incrementDepth();
