@@ -3,6 +3,7 @@ package adventuregame.Entity;
 import java.util.Random;
 
 public class Attack {
+    private String name;
     private double damage;
     private double minVariation;
     private double maxVariation;
@@ -41,6 +42,9 @@ public class Attack {
     }
     public Type getType() {
         return this.attackType;
+    }
+    public String getName() {
+        return this.name;
     }
 
     public int getDamage(Stats attackerStats, Stats defenderStats) {
