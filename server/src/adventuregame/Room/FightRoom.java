@@ -9,4 +9,12 @@ public class FightRoom extends Room {
         super(id, min_depth, max_depth);
         this.monster = monster;
     }
+
+    public Monster getMonster() {
+        return this.monster;
+    }
+
+    public FightRoom deepCopy() {
+        return new FightRoom(getID(), getMinDepth(), getMaxDepth(), getMonster().deepCopy());
+    }
 }
