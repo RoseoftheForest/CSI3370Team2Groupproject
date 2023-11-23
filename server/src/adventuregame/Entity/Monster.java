@@ -49,4 +49,30 @@ public class Monster extends Entity {
         Random rand = new Random();
         return rand.nextInt(maxMoney-minMoney) + minMoney;
     }
+
+    public Damage attack(Entity defender) {
+        double abilityChance = 0;
+        if (getHealthPercent() > 0.8) {
+            abilityChance = 0.2;
+        } else if (getHealthPercent() > 0.5) {
+            abilityChance = 0.4;
+        } else if (getHealthPercent() > 0.2) {
+            abilityChance = 0.6;
+        } else if (getHealthPercent() > 0.1) {
+            abilityChance = 0.7;
+        } else if (getHealthPercent() > 0.05) {
+            abilityChance = 0.8;
+        }
+        
+        Random rand = new Random();
+        boolean useAbility = rand.nextInt(10) < (abilityChance*10);
+
+        if (useAbility) {
+            int damage = useSpecialAttack(defender);
+            return new Damage(damage, getSpecialAttack().getName());
+        } else {
+            int damage = useBasicAttack(defender);
+            return new Damage(damage, getBasicAttack().getName());
+        }
+    }
 }
