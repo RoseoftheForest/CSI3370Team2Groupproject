@@ -6,29 +6,22 @@ public class Attack {
     private double damage;
     private double minVariation;
     private double maxVariation;
-    private double trueDamage;
     private Random random = new Random();
     private Type attackType;
     private static double DAMAGE_MULTIPLIER = 5.0;
     public static enum Type {
-        MAGIC, PHYSICAL
+        MAGIC, PHYSICAL, TRUE
     }
 
-    public Attack(Type type, double baseDamage, double trueDamage) {
+    public Attack(String name, Type type, double baseDamage) {
         this.attackType = type;
         this.damage = baseDamage;
-        this.trueDamage = trueDamage;
         this.minVariation = 1.0;
         this.maxVariation = 1.0;
-        
-
     }
 
     public void setBaseDamage(double damage) {
         this.damage = damage;
-    }
-    public void setTrueDamage(double damage) {
-        this.trueDamage = damage;
     }
     public void setMinVariation(double variation) {
         this.minVariation = variation;
@@ -41,10 +34,10 @@ public class Attack {
         return (this.damage) * getBaseVariation();
     }
     private double getBaseVariation() {
+        if (minVariation >= maxVariation) {
+            return 1.0;
+        }
         return (random.nextInt(((int)minVariation)*100, ((int)maxVariation)*100)) / 100.0;
-    }
-    public double getTrueDamage() {
-        return this.trueDamage;
     }
     public Type getType() {
         return this.attackType;
@@ -55,12 +48,12 @@ public class Attack {
         if (getType() == Type.MAGIC) {
             b_dmg = (getBaseDamage() * attackerStats.getMagicAtk()) / defenderStats.getMagicDef();
         } else if (getType() == Type.PHYSICAL) {
-            b_dmg = (getBaseDamage() * attackerStats.getPhyAtk()) / defenderStats.getBaseDef();
+            b_dmg = (getBaseDamage() * attackerStats.getPhyAtk()) / defenderStats.getPhyDef();
+        } else if (getType() == Type.TRUE) {
+            b_dmg = getBaseDamage();
         }
-        
-        double t_dmg = (getTrueDamage());
-        
-        int dmg = (int)(DAMAGE_MULTIPLIER * (b_dmg + t_dmg));
+                
+        int dmg = (int)(DAMAGE_MULTIPLIER * (b_dmg));
         return dmg;
     }
     public void useAttack(Entity attacker, Entity defender) {
