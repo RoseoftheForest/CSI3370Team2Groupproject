@@ -62,11 +62,11 @@ public class Entity {
         this.specialAttack = attack;
     }
 
-    public void useBasicAttack(Entity defenderEntity) {
-        basicAttack.useAttack(this, defenderEntity);
+    public int useBasicAttack(Entity defenderEntity) {
+        return basicAttack.useAttack(this, defenderEntity);
     }
-    public void useSpecialAttack(Entity defenderEntity) {
-        specialAttack.useAttack(this, defenderEntity);
+    public int useSpecialAttack(Entity defenderEntity) {
+        return specialAttack.useAttack(this, defenderEntity);
     }
 
     public void takeDamage(int damage) {
