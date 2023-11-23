@@ -191,6 +191,16 @@ public class Game {
         Item item = items.get(rand.nextInt(items.size()));
         player.collectItem(item);
     }
+
+    public List<Item> getItemsByTier(int tier) {
+        if (tier == 3) {
+            return tier3Items;
+        } else if (tier == 2) {
+            return tier2Items;
+        } else {
+            return tier1Items;
+        }
+    }
     public void nextRoom(int playerID) {
         Player player = getPlayer(playerID);
         player.incrementDepth();
