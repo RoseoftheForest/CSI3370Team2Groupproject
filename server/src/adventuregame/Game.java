@@ -86,6 +86,10 @@ public class Game {
         return null;
     }
 
+    public void addPlayer(String name) {
+        players.add(new Player(players.size()+1,name));
+    }
+
 
     public void startNewGame(int playerID) {
         Player p = getPlayer(playerID);
