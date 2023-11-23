@@ -144,7 +144,12 @@ public class Game {
         players.removeIf(p -> (p.getID() == playerID));
     }
 
-    public void nextRoom(Player player) {
+    public void dropItem(Monster monster, Player player) {
+        List<Item> items = getItemsByTier(monster.getTier());
+        Random rand = new Random();
+        Item item = items.get(rand.nextInt(items.size()));
+        player.collectItem(item);
+    }
     public void nextRoom(int playerID) {
         Player player = getPlayer(playerID);
         player.incrementDepth();
