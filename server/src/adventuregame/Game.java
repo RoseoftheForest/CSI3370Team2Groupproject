@@ -43,7 +43,37 @@ public class Game {
 
     private ArrayList<Room> rooms;
     private ArrayList<Player> players;
+    private static Game uniqueInstance = null;
     
+
+    public static Game instance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new Game();
+        }
+        return uniqueInstance;
+    }
+
+    private Game() {
+        // initialize items, monsters, and rooms
+        monsters = new ArrayList<Monster>();
+        monsters.add(new Monster("Monster1", "", new Stats(2, 5, 1, 1, 100), 1, 2, 1));
+        monsters.add(new Monster("Monster2", "", new Stats(2, 2, 2, 1, 200), 5, 10, 1));
+        rooms = new ArrayList<Room>();
+        Room room = new FightRoom(1, 1, 5, monsters.get(0));
+        Room room2 = new FightRoom(2, 1, 5, monsters.get(1));
+        rooms.add(room);
+        rooms.add(room2);
+
+        tier1Items = new ArrayList<Item>();
+        Item item = new Item(1, "Item1", "", new Stats(0, 0, 0, 0, 100));
+        tier2Items = new ArrayList<Item>();
+        Item item2 = new Item(2, "BIG ITEM", "it's big", new Stats(0, 0, 0, 0, 200));
+        tier1Items.add(item);
+        tier1Items.add(item2);
+
+        players = new ArrayList<Player>();
+    }
+
     public void logIn(int playerID) {
         Player p = getPlayer(playerID); // attempt to load player from existing memory
         if (p != null) {
