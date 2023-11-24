@@ -87,39 +87,6 @@ public class Game {
         players = new ArrayList<Player>();
     }
 
-    public void logIn(int playerID) {
-        Player p = getPlayer(playerID); // attempt to load player from existing memory
-        if (p != null) {
-            if (!p.isLoggedIn()) {
-                p.logIn();
-            }
-            return;
-        }
-
-        // otherwise, search database for player
-        // otherwise, create new player, and save in database
-    }
-    public void logOut(int playerID) {
-        Player p = getPlayer(playerID);
-        if (p == null || !p.isLoggedIn()) {return;} // player is not logged in
-        p.logOut();
-    }
-
-    // may need to remove Settings argument in favor of json
-    public void selectSettings(int playerID, Settings settings) {
-        Player p = getPlayer(playerID);
-        if (p == null) {return;}
-        p.setSettings(settings);
-    }
-
-    // TO BE IMPLEMENTED
-    // Should return the default settings if the player hasn't modified the settings, or whatever their settings were if they have saved settings.
-    public void loadSettings(int playerID) {
-        Player p = getPlayer(playerID);
-        if (p == null) {return;}
-        p.setSettings(new Settings());
-    }
-
     public Player getPlayer(int playerID) {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getID() == playerID) {
@@ -138,6 +105,26 @@ public class Game {
         Player p = getPlayer(playerID);
         p.reset();
         nextRoom(playerID);
+    }
+    
+    // TO BE IMPLEMENTED
+    // Need database functionality
+    public void logIn(int playerID) {
+        Player p = getPlayer(playerID); // attempt to load player from existing memory
+        if (p != null) {
+            if (!p.isLoggedIn()) {
+                p.logIn();
+            }
+            return;
+        }
+
+        // otherwise, search database for player
+        // otherwise, create new player, and save in database
+    }
+    public void logOut(int playerID) {
+        Player p = getPlayer(playerID);
+        if (p == null || !p.isLoggedIn()) {return;} // player is not logged in
+        p.logOut();
     }
     public void loadGame(int playerID) {
         deletePlayer(playerID);
@@ -167,6 +154,12 @@ public class Game {
         saveSettings(player);
         saveStats(player);
     }
+    // may need to remove Settings argument in favor of json
+    public void selectSettings(int playerID, Settings settings) {
+        Player p = getPlayer(playerID);
+        if (p == null) {return;}
+        p.setSettings(settings);
+    }
     public void saveSettings(Player player) {
         Settings settings = player.getSettings();
         int backgroundColor = settings.getBackgroundColor().ordinal();
@@ -189,6 +182,13 @@ public class Game {
 
     public void deletePlayer(int playerID) {
         players.removeIf(p -> (p.getID() == playerID));
+    
+    // TO BE IMPLEMENTED
+    // Should return the default settings if the player hasn't modified the settings, or whatever their settings were if they have saved settings.
+    public void loadSettings(int playerID) {
+        Player p = getPlayer(playerID);
+        if (p == null) {return;}
+        p.setSettings(new Settings());
     }
 
     public void dropItem(Monster monster, Player player) {
