@@ -208,57 +208,44 @@ public class Game {
         }
     }
 
-    public void basicAttack(int playerID) {
+    public Response useBasicAttack(int playerID) {
         Player p = getPlayer(playerID);
-        if (p.getCurrentRoom().getClass() != FightRoom.class) {
-            return;
-        }
-        FightRoom room = (FightRoom) p.getCurrentRoom();
-        
-        int playerDamage = p.useBasicAttack(room.getMonster());
-        System.out.println("Damage: " + playerDamage);
-        if (!room.getMonster().isAlive()) {
-            p.defeatMonster(room.getMonster());
-            dropItem(room.getMonster(), p);
-            // send defeat monster response
-            return;
-        }
-        Damage monsterAttack = room.getMonster().attack(p);
-        int monsterDamage = monsterAttack.getAmount();
-        String attackName = monsterAttack.getName();
-        if (!p.isAlive()) {
-            System.out.println("Game Over.");
-            p.reset();
-            // send game over
-        }
-        System.out.println("Damage: " + monsterDamage + " | Attack: " + attackName);
-        // send the attack that was used by the monster, the damage it did, and the new health of player and monster
+        return useAttack(p, p.getBasicAttack());
     }
-    public void specialAttack(int playerID) {
+    public Response useSpecialAttack(int playerID) {
         Player p = getPlayer(playerID);
+        return useAttack(p, p.getSpecialAttack());
+    }
+
+    private Response useAttack(Player p, Attack a) {
+        Response response = new Response();
         if (p.getCurrentRoom().getClass() != FightRoom.class) {
-            return;
+            return response;
         }
         FightRoom room = (FightRoom) p.getCurrentRoom();
-        
-        int playerDamage = p.useSpecialAttack(room.getMonster());
-        System.out.println("Damage: " + playerDamage);
-        if (!room.getMonster().isAlive()) {
-            p.defeatMonster(room.getMonster());
-            dropItem(room.getMonster(), p);
-            // send defeat monster response
-            return;
+        Monster monster = room.getMonster();
+        if (a == p.getBasicAttack()) {
+            response = p.useBasicAttack(monster);
+        } else if (a == p.getSpecialAttack()) {
+            response = p.useSpecialAttack(monster);
+        } else {
+            return response;
+        }
+        if (!monster.isAlive()) {
+            response.combineResponse(p.defeatMonster(monster));
+            response.setNextAction(Action.NEXT_ROOM);
+            // dropItem(monster, p);
+            return response;
         }
 
-        Damage monsterAttack = room.getMonster().attack(p);
-        int monsterDamage = monsterAttack.getAmount();
-        String attackName = monsterAttack.getName();
+        response.combineResponse(monster.attack(p));
         if (!p.isAlive()) {
-            System.out.println("Game Over.");
-            p.reset();
-            // send game over
+            response.combineResponse(gameOver(p));
+        } else {
+            response.setNextAction(Action.ATTACK);
         }
-        System.out.println("Damage: " + monsterDamage + " | Attack: " + attackName);
+        return response;
+    }
 
         // send response
     }
