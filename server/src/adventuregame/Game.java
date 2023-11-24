@@ -267,10 +267,18 @@ public class Game {
         // send response
     }
 
-    public void nextRoom(int playerID) {
+    public Response nextRoom(int playerID) {
         Player player = getPlayer(playerID);
+        Response response = new Response();
         player.incrementDepth();
+        Room nextRoom = getValidRoom(player.getDepth()).deepCopy();
         player.setCurrentRoom(getValidRoom(player.getDepth()).deepCopy());
+        if (nextRoom.getClass() == FightRoom.class) {
+            response.setNextAction(Action.ATTACK);
+        } else if (nextRoom.getClass() == ShopRoom.class) {
+            response.setNextAction(Action.SHOP);
+        }
+        return response;
     }
 
     public Room getValidRoom(int depth) {
