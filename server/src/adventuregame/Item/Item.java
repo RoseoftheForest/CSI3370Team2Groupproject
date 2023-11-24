@@ -18,6 +18,16 @@ public class Item {
     public Stats getModifiers() {
         return this.modifiers;
     }
+    public String getName() {
+        return this.name;
+    }
+    public String getDescription() {
+        return this.description;
+    }
+    public int getID() {
+        return this.id;
+    }
+
     public String stringifyModifiers() {
         String str = "";
         if (getModifiers().getMaxHealth() > 0) {
