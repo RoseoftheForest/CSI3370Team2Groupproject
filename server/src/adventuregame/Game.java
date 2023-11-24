@@ -258,13 +258,15 @@ public class Game {
         p.reset();
         // NEEDS MORE IMPLEMENTATION
     }
+    public Response buyItem(int playerID, int position) {
+        Player p = getPlayer(playerID);
+        Response response = new Response();
         if (p.getCurrentRoom().getClass() != ShopRoom.class) {
-            return;
+            return response;
         }
         ShopRoom room = (ShopRoom) p.getCurrentRoom();
         
-        p.buyItem(room.getItem(position));
-        // send response
+        return p.buyItem(room.getItem(position));
     }
 
     public Response nextRoom(int playerID) {
