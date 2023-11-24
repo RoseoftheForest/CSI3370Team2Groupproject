@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import adventuregame.Entity.Attack;
 import adventuregame.Entity.Damage;
 import adventuregame.Entity.Monster;
 import adventuregame.Entity.Player;
 import adventuregame.Entity.Stats;
 import adventuregame.Item.Item;
+import adventuregame.Response.Action;
 import adventuregame.Room.FightRoom;
 import adventuregame.Room.Room;
 import adventuregame.Room.ShopRoom;
@@ -95,11 +97,9 @@ public class Game {
         }
         return null;
     }
-
     public void addPlayer(String name) {
         players.add(new Player(players.size()+1,name));
     }
-
     public void deletePlayer(int playerID) {
         players.removeIf(p -> (p.getID() == playerID));
     }
@@ -141,7 +141,6 @@ public class Game {
         player.setStats(null);
         player.setCurrentRoom(getRoom(0));
     }
-
     public void saveGame(int playerID) {
         Player player = getPlayer(playerID);
         if (player == null) {
@@ -190,6 +189,14 @@ public class Game {
         if (p == null) {return;}
         p.setSettings(new Settings());
     }
+    
+
+    // public void dropItem(Monster monster, Player player) {
+    //     List<Item> items = getItemsByTier(monster.getTier());
+    //     Random rand = new Random();
+    //     Item item = items.get(rand.nextInt(items.size()));
+    //     player.collectItem(item);
+    // }
 
     public Item getItem(Monster monster) {
         List<Item> items = getItemsByTier(monster.getTier());
@@ -258,6 +265,61 @@ public class Game {
         p.reset();
         // NEEDS MORE IMPLEMENTATION
     }
+
+    // public void basicAttack(int playerID) {
+    //     Player p = getPlayer(playerID);
+    //     if (p.getCurrentRoom().getClass() != FightRoom.class) {
+    //         return;
+    //     }
+    //     FightRoom room = (FightRoom) p.getCurrentRoom();
+        
+    //     int playerDamage = p.useBasicAttack(room.getMonster());
+    //     System.out.println("Damage: " + playerDamage);
+    //     if (!room.getMonster().isAlive()) {
+    //         p.defeatMonster(room.getMonster());
+    //         dropItem(room.getMonster(), p);
+    //         // send defeat monster response
+    //         return;
+    //     }
+    //     Damage monsterAttack = room.getMonster().attack(p);
+    //     int monsterDamage = monsterAttack.getAmount();
+    //     String attackName = monsterAttack.getName();
+    //     if (!p.isAlive()) {
+    //         System.out.println("Game Over.");
+    //         p.reset();
+    //         // send game over
+    //     }
+    //     System.out.println("Damage: " + monsterDamage + " | Attack: " + attackName);
+    //     // send the attack that was used by the monster, the damage it did, and the new health of player and monster
+    // }
+    // public void specialAttack(int playerID) {
+    //     Player p = getPlayer(playerID);
+    //     if (p.getCurrentRoom().getClass() != FightRoom.class) {
+    //         return;
+    //     }
+    //     FightRoom room = (FightRoom) p.getCurrentRoom();
+        
+    //     int playerDamage = p.useSpecialAttack(room.getMonster());
+    //     System.out.println("Damage: " + playerDamage);
+    //     if (!room.getMonster().isAlive()) {
+    //         p.defeatMonster(room.getMonster());
+    //         dropItem(room.getMonster(), p);
+    //         // send defeat monster response
+    //         return;
+    //     }
+
+    //     Damage monsterAttack = room.getMonster().attack(p);
+    //     int monsterDamage = monsterAttack.getAmount();
+    //     String attackName = monsterAttack.getName();
+    //     if (!p.isAlive()) {
+    //         System.out.println("Game Over.");
+    //         p.reset();
+    //         // send game over
+    //     }
+    //     System.out.println("Damage: " + monsterDamage + " | Attack: " + attackName);
+
+    //     // send response
+    // }
     public Response buyItem(int playerID, int position) {
         Player p = getPlayer(playerID);
         Response response = new Response();
