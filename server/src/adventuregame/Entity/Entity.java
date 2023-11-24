@@ -1,5 +1,6 @@
 package adventuregame.Entity;
 
+import adventuregame.Response;
 import adventuregame.Entity.Attack.Type;
 
 public class Entity {
@@ -62,10 +63,10 @@ public class Entity {
         this.specialAttack = attack;
     }
 
-    public int useBasicAttack(Entity defenderEntity) {
+    public Response useBasicAttack(Entity defenderEntity) {
         return basicAttack.useAttack(this, defenderEntity);
     }
-    public int useSpecialAttack(Entity defenderEntity) {
+    public Response useSpecialAttack(Entity defenderEntity) {
         return specialAttack.useAttack(this, defenderEntity);
     }
 
