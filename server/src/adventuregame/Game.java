@@ -100,6 +100,9 @@ public class Game {
         players.add(new Player(players.size()+1,name));
     }
 
+    public void deletePlayer(int playerID) {
+        players.removeIf(p -> (p.getID() == playerID));
+    }
 
     public void startNewGame(int playerID) {
         Player p = getPlayer(playerID);
@@ -179,9 +182,6 @@ public class Game {
         int playerID = player.getID();
         // save stats in database for the player
     }
-
-    public void deletePlayer(int playerID) {
-        players.removeIf(p -> (p.getID() == playerID));
     
     // TO BE IMPLEMENTED
     // Should return the default settings if the player hasn't modified the settings, or whatever their settings were if they have saved settings.
