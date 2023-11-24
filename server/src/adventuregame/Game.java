@@ -246,7 +246,11 @@ public class Game {
         return response;
     }
 
-        // send response
+    private Response gameOver(Player p) {
+        Response response = new Response();
+        response.addMessage("You died... Press Restart to try a new dungeon from the beginning.");
+        response.setNextAction(Action.GAME_OVER);
+        return response;
     }
     public void buyItem(int playerID, int position) {
         Player p = getPlayer(playerID);
