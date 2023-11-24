@@ -252,8 +252,12 @@ public class Game {
         response.setNextAction(Action.GAME_OVER);
         return response;
     }
-    public void buyItem(int playerID, int position) {
+
+    public void restart(int playerID) {
         Player p = getPlayer(playerID);
+        p.reset();
+        // NEEDS MORE IMPLEMENTATION
+    }
         if (p.getCurrentRoom().getClass() != ShopRoom.class) {
             return;
         }
