@@ -66,4 +66,14 @@ public class Stats {
         this.magicDef += modifiers.getMagicDef();
         this.maxHealth += modifiers.getMaxHealth();
     }
+
+    public String stringify() {
+        String str = "";
+        str += "HP: " + getMaxHealth() + "\n";
+        str += "Phy Atk: " + getPhyAtk() + "\n";
+        str += "Mag Atk: " + getMagicAtk() + "\n";
+        str += "Phy Def: " + getPhyDef() + "\n";
+        str += "Mag Def: " + getMagicDef() + "\n";
+        return str;
+    }
 }
