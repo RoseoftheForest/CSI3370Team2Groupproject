@@ -3,6 +3,7 @@ package adventuregame.Entity;
 import java.util.Random;
 
 import adventuregame.Game;
+import adventuregame.Response;
 
 public class Monster extends Entity {
     private int id;
@@ -44,7 +45,7 @@ public class Monster extends Entity {
         return rand.nextInt(maxMoney-minMoney) + minMoney;
     }
 
-    public Damage attack(Entity defender) {
+    public Response attack(Entity defender) {
         double abilityChance = 0;
         if (getHealthPercent() > 0.8) {
             abilityChance = 0.2;
@@ -62,11 +63,9 @@ public class Monster extends Entity {
         boolean useAbility = rand.nextInt(10) < (abilityChance*10);
 
         if (useAbility) {
-            int damage = useSpecialAttack(defender);
-            return new Damage(damage, getSpecialAttack().getName());
+            return useSpecialAttack(defender);
         } else {
-            int damage = useBasicAttack(defender);
-            return new Damage(damage, getBasicAttack().getName());
+            return useBasicAttack(defender);
         }
     }
 }
