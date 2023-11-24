@@ -1,10 +1,12 @@
 package adventuregame.Entity;
 
 import adventuregame.Game;
+import adventuregame.Response;
 import adventuregame.Settings;
 import adventuregame.Game.PlayerClass;
 import adventuregame.Item.Item;
 import adventuregame.Item.ShopItem;
+import adventuregame.Response.Action;
 import adventuregame.Room.Room;
 
 public class Player extends Entity {
@@ -82,13 +84,21 @@ public class Player extends Entity {
     }
     
     
-    public boolean buyItem(ShopItem item) {
+    public Response buyItem(ShopItem item) {
+        Response response = new Response();
+        response.setNextAction(Action.SHOP);
         if (getMoney() < item.getCost()) {
-            return false;
+            response.addMessage("You don't have enough money to buy that!");
+            response.setResult(false);
+            return response;
         }
         this.money -= item.getCost();
+        response.combineResponse(item.buy());
+        if (!response.getResult()) {
+            return response;
+        }
         collectItem(item);
-        return true;
+        return response;
     }
 
     public void collectItem(Item item) {
