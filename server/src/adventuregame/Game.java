@@ -191,11 +191,10 @@ public class Game {
         p.setSettings(new Settings());
     }
 
-    public void dropItem(Monster monster, Player player) {
+    public Item getItem(Monster monster) {
         List<Item> items = getItemsByTier(monster.getTier());
         Random rand = new Random();
-        Item item = items.get(rand.nextInt(items.size()));
-        player.collectItem(item);
+        return items.get(rand.nextInt(items.size()));
     }
 
     public List<Item> getItemsByTier(int tier) {
