@@ -18,4 +18,23 @@ public class Item {
     public Stats getModifiers() {
         return this.modifiers;
     }
+    public String stringifyModifiers() {
+        String str = "";
+        if (getModifiers().getMaxHealth() > 0) {
+            str += "+" + getModifiers().getMaxHealth() + " Max HP\n";
+        }
+        if (getModifiers().getPhyAtk() > 0) {
+            str += "+" + getModifiers().getPhyAtk() + " Phy Atk\n";
+        }
+        if (getModifiers().getMagicAtk() > 0) {
+            str += "+" + getModifiers().getMagicAtk() + " Mag Atk\n";
+        }
+        if (getModifiers().getPhyDef() > 0) {
+            str += "+" + getModifiers().getPhyDef() + " Phy Def\n";
+        }
+        if (getModifiers().getMagicDef() > 0) {
+            str += "+" + getModifiers().getMagicDef() + " Mag Def\n";
+        }
+        return str;
+    }
 }
