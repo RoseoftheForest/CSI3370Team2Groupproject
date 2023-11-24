@@ -44,6 +44,9 @@ public class Monster extends Entity {
         Random rand = new Random();
         return rand.nextInt(maxMoney-minMoney) + minMoney;
     }
+    public int getID() {
+        return this.id;
+    }
 
     public Response attack(Entity defender) {
         double abilityChance = 0;
