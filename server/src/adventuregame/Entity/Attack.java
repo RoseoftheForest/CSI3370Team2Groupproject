@@ -2,6 +2,8 @@ package adventuregame.Entity;
 
 import java.util.Random;
 
+import adventuregame.Response;
+
 public class Attack {
     private String name;
     private double damage;
@@ -60,9 +62,14 @@ public class Attack {
         int dmg = (int)(DAMAGE_MULTIPLIER * (b_dmg));
         return dmg;
     }
-    public int useAttack(Entity attacker, Entity defender) {
+    public Response useAttack(Entity attacker, Entity defender) {
+        Response response = new Response();
         int damage = getDamage(attacker.getStats(), defender.getStats());
+        response.addMessage(attacker.getName() + " attacked " + defender.getName() + " with " + getName() + " for " + damage + " damage");
         defender.takeDamage(damage);
-        return damage;
+        if (!defender.isAlive()) {
+            response.addMessage(attacker.getName() + " defeated " + defender.getName());
+        }
+        return response;
     }
 }
