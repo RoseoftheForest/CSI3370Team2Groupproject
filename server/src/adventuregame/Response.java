@@ -27,8 +27,8 @@ public class Response {
         return this.nextAction;
     }
     public String nextMessage() {
-        String message = getMessages().getFirst();
-        getMessages().removeFirst();
+        String message = getMessages().get(0);
+        getMessages().remove(0);
         return message;
     }
     public boolean getResult() {
