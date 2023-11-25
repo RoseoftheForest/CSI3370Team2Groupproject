@@ -1,0 +1,24 @@
+{
+    "rooms": [
+        {
+            "id": 1, 
+            "minDepth": 1,
+            "maxDepth": 5
+        },
+        {
+            "id": 2,
+            "minDepth": 1,
+            "maxDepth": 5
+        },
+        {
+            "id": 3,
+            "minDepth": 2,
+            "maxDepth": 5
+        },
+        {
+            "id": 4,
+            "minDepth": 2,
+            "maxDepth": 5
+        }
+    ]
+}

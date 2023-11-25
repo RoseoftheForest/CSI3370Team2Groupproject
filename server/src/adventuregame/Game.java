@@ -74,18 +74,25 @@ public class Game {
     private Game() throws Exception {
         // initialize items, monsters, and rooms
         monsters = new ArrayList<Monster>();
+        rooms = new ArrayList<Room>();
         
-        //Reads the json file
-        InputStream file = new FileInputStream("server/src/monsters.json");
-        JsonReader monsterReader = Json.createReader(file);
+        //Reads the json files
+        InputStream monsterFile = new FileInputStream("server/src/monsters.json");
+        InputStream roomFile = new FileInputStream("server/src/rooms.json");
+        JsonReader monsterReader = Json.createReader(monsterFile);
+        JsonReader roomReader = Json.createReader(roomFile);
         JsonObject monsterObject = monsterReader.readObject();
+        JsonObject roomObject = roomReader.readObject();
         monsterReader.close();
+        roomReader.close();
         
-        //Gets the monsters array from the json
+        //Gets the monsters and rooms arrays from the json
         JsonArray monsterArray = monsterObject.getJsonArray("monsters");
+        JsonArray roomsArray = roomObject.getJsonArray("rooms");
 
         //Local variables used to hold read information from json
         Monster monsterToAdd;
+        Room roomToAdd;
         Stats statsToAdd;
         int phyAtkToAdd;
         int magAtkToAdd;
@@ -93,13 +100,19 @@ public class Game {
         int magicDefToAdd;
         int healthToAdd;
 
-        //Loop to add monsters from json to array list
+        //Loop to add monsters and rooms from json to array lists
+        /*
+         Note: Merging both the rooms and monster initializations into one for loop only works because there are the same number
+         of monsters as there are rooms. As soon as the numbers differ from each other, there will need to be a separate loop
+         for the rooms, but the process will be the same.
+         */
         for (int i = 0; i < monsterArray.size(); i++) {
             //Creating a new ArrayList instance each time is necessary as clear() leads to bugs
             ArrayList<Integer> stats = new ArrayList<>();
 
-            //Gets the monster object at index i
+            //Gets the monster and room object at index i
             JsonObject monster = monsterArray.getJsonObject(i);
+            JsonObject room = roomsArray.getJsonObject(i);
 
             //Gets the stats array for the monster at index i
             JsonArray statsArray = monster.getJsonArray("stats");
@@ -119,23 +132,15 @@ public class Game {
             //Put the extracted stats into a stats object
             statsToAdd = new Stats(phyAtkToAdd, magAtkToAdd, phyDefToAdd, magicDefToAdd, healthToAdd);
 
-            //Create new monster
+            //Create new monster and add it to array list
             monsterToAdd = new Monster(monster.getString("name"), monster.getString("description"), statsToAdd, monster.getInt("minMoney"), monster.getInt("maxMoney"), monster.getInt("tier"));
-            
-            //Add the monster to the array list
             monsters.add(monsterToAdd);
             System.out.println("A monster has been added to the list");
+
+            //Create new room and add it to array list
+            roomToAdd = new FightRoom(room.getInt("id"), room.getInt("minDepth"), room.getInt("maxDepth"), monsters.get(i));
+            rooms.add(roomToAdd);
         }
-        
-        rooms = new ArrayList<Room>();
-        Room room = new FightRoom(1, 1, 5, monsters.get(0));
-        Room room2 = new FightRoom(2, 1, 5, monsters.get(1));
-        Room room3 = new FightRoom(3, 2, 5, monsters.get(2));
-        Room room4 = new FightRoom(4, 2, 5, monsters.get(3));
-        rooms.add(room);
-        rooms.add(room2);
-        rooms.add(room3);
-        rooms.add(room4);
 
         tier1Items = new ArrayList<Item>();
         Item item = new Item(1, "Item1", "", new Stats(0, 0, 0, 0, 100));
