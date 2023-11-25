@@ -9,7 +9,7 @@ public class Attack {
     private double damage;
     private double minVariation;
     private double maxVariation;
-    private Random random = new Random();
+    private Random random;
     private Type attackType;
     private static double DAMAGE_MULTIPLIER = 5.0;
     public static enum Type {
@@ -40,7 +40,7 @@ public class Attack {
         if (minVariation >= maxVariation) {
             return 1.0;
         }
-        return (random.nextInt(((int)minVariation)*100, ((int)maxVariation)*100)) / 100.0;
+        return (random.nextInt(((int)maxVariation*100)-((int)minVariation*100)) + 1) / 100.0;
     }
     public Type getType() {
         return this.attackType;
