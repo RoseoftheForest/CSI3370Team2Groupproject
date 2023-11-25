@@ -1,8 +1,11 @@
 package adventuregame;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javax.json.*;
 
 import adventuregame.Entity.Attack;
 import adventuregame.Entity.Damage;
@@ -61,23 +64,78 @@ public class Game {
     private static Game uniqueInstance = null;
     
 
-    public static Game instance() {
+    public static Game instance() throws Exception {
         if (uniqueInstance == null) {
             uniqueInstance = new Game();
         }
         return uniqueInstance;
     }
 
-    private Game() {
+    private Game() throws Exception {
         // initialize items, monsters, and rooms
         monsters = new ArrayList<Monster>();
-        monsters.add(new Monster("Monster1", "", new Stats(2, 5, 1, 1, 100), 1, 2, 1));
-        monsters.add(new Monster("Monster2", "", new Stats(2, 2, 2, 1, 200), 5, 10, 1));
+        
+        //Reads the json file
+        InputStream file = new FileInputStream("server/src/monsters.json");
+        JsonReader monsterReader = Json.createReader(file);
+        JsonObject monsterObject = monsterReader.readObject();
+        monsterReader.close();
+        
+        //Gets the monsters array from the json
+        JsonArray monsterArray = monsterObject.getJsonArray("monsters");
+
+        //Local variables used to hold read information from json
+        Monster monsterToAdd;
+        Stats statsToAdd;
+        int phyAtkToAdd;
+        int magAtkToAdd;
+        int phyDefToAdd;
+        int magicDefToAdd;
+        int healthToAdd;
+
+        //Loop to add monsters from json to array list
+        for (int i = 0; i < monsterArray.size(); i++) {
+            //Creating a new ArrayList instance each time is necessary as clear() leads to bugs
+            ArrayList<Integer> stats = new ArrayList<>();
+
+            //Gets the monster object at index i
+            JsonObject monster = monsterArray.getJsonObject(i);
+
+            //Gets the stats array for the monster at index i
+            JsonArray statsArray = monster.getJsonArray("stats");
+
+            //Loop to add stats to array list
+            for (int j = 0; j < statsArray.size(); j++) {
+                stats.add(statsArray.getInt(j));
+            }
+
+            //Extract the individual stats to be put into a Stats object
+            phyAtkToAdd = stats.get(0);
+            magAtkToAdd = stats.get(1);
+            phyDefToAdd = stats.get(2);
+            magicDefToAdd = stats.get(3);
+            healthToAdd = stats.get(4);
+
+            //Put the extracted stats into a stats object
+            statsToAdd = new Stats(phyAtkToAdd, magAtkToAdd, phyDefToAdd, magicDefToAdd, healthToAdd);
+
+            //Create new monster
+            monsterToAdd = new Monster(monster.getString("name"), monster.getString("description"), statsToAdd, monster.getInt("minMoney"), monster.getInt("maxMoney"), monster.getInt("tier"));
+            
+            //Add the monster to the array list
+            monsters.add(monsterToAdd);
+            System.out.println("A monster has been added to the list");
+        }
+        
         rooms = new ArrayList<Room>();
         Room room = new FightRoom(1, 1, 5, monsters.get(0));
         Room room2 = new FightRoom(2, 1, 5, monsters.get(1));
+        Room room3 = new FightRoom(3, 2, 5, monsters.get(2));
+        Room room4 = new FightRoom(4, 2, 5, monsters.get(3));
         rooms.add(room);
         rooms.add(room2);
+        rooms.add(room3);
+        rooms.add(room4);
 
         tier1Items = new ArrayList<Item>();
         Item item = new Item(1, "Item1", "", new Stats(0, 0, 0, 0, 100));
@@ -214,16 +272,16 @@ public class Game {
         }
     }
 
-    public Response useBasicAttack(int playerID) {
+    public Response useBasicAttack(int playerID) throws Exception {
         Player p = getPlayer(playerID);
         return useAttack(p, p.getBasicAttack());
     }
-    public Response useSpecialAttack(int playerID) {
+    public Response useSpecialAttack(int playerID) throws Exception {
         Player p = getPlayer(playerID);
         return useAttack(p, p.getSpecialAttack());
     }
 
-    private Response useAttack(Player p, Attack a) {
+    private Response useAttack(Player p, Attack a) throws Exception {
         Response response = new Response();
         if (p.getCurrentRoom().getClass() != FightRoom.class) {
             return response;

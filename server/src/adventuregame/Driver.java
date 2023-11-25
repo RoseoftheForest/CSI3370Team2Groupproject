@@ -6,7 +6,8 @@ import adventuregame.Room.FightRoom;
 
 public class Driver {
     
-    public static void main(String[] args) {
+    
+    public static void main(String[] args) throws Exception {
         Scanner scan = new Scanner(System.in);
         Game game = Game.instance();
         System.out.println(game);
@@ -23,8 +24,7 @@ public class Driver {
         scan.close();
     }
 
-    public static void fightRoom(Scanner scan) {
-        //Scanner scan = new Scanner(System.in);
+    public static void fightRoom(Scanner scan) throws Exception {
         Game game = Game.instance();
         System.out.println(game);
         FightRoom room = (FightRoom) game.getPlayer(1).getCurrentRoom();

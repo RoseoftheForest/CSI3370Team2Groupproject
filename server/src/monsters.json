@@ -1,0 +1,44 @@
+{
+    "monsters": [
+        {
+            "id": 0, 
+            "name": "Baby Slime", 
+            "minMoney": 1, 
+            "maxMoney": 10, 
+            "tier": 1, 
+            "description": "A little green ball of slime", 
+            "cooldown": 0, 
+            "stats": [2, 2, 1, 1, 10]
+        },
+        {
+            "id": 1,
+            "name": "Slime",
+            "minMoney": 5,
+            "maxMoney": 10,
+            "tier": 1,
+            "description": "A medium green ball of slime",
+            "cooldown": 0,
+            "stats": [4, 4, 2, 2, 15]
+        },
+        {
+            "id": 2,
+            "name": "King Slime",
+            "minMoney": 10,
+            "maxMoney": 15,
+            "tier": 2,
+            "description": "A big ball of slime wearing a crown",
+            "cooldown": 0,
+            "stats": [6, 2, 5, 3, 25]
+        },
+        {
+            "id": 3,
+            "name": "Mr. Bones",
+            "minMoney": 10,
+            "maxMoney": 15,
+            "tier": 2,
+            "description": "A walking talking skeleton",
+            "cooldown": 0,
+            "stats": [5, 1, 5, 2, 20]
+        }
+    ]
+}

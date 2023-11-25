@@ -108,7 +108,7 @@ public class Player extends Entity {
         getStats().applyModifiers(item.getModifiers());
     }
 
-    public Response defeatMonster(Monster monster) {
+    public Response defeatMonster(Monster monster) throws Exception {
         Response response = new Response();
         int droppedMoney = monster.getDroppedMoney();
         addMoney(droppedMoney);
