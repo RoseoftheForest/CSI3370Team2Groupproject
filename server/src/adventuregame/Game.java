@@ -1,6 +1,8 @@
 package adventuregame;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,21 +66,38 @@ public class Game {
     private static Game uniqueInstance = null;
     
 
-    public static Game instance() throws Exception {
+    public static Game instance() {
         if (uniqueInstance == null) {
             uniqueInstance = new Game();
         }
         return uniqueInstance;
     }
 
-    private Game() throws Exception {
+    private Game() {
         // initialize items, monsters, and rooms
         monsters = new ArrayList<Monster>();
         rooms = new ArrayList<Room>();
         
         //Reads the json files
-        InputStream monsterFile = new FileInputStream("server/src/monsters.json");
-        InputStream roomFile = new FileInputStream("server/src/rooms.json");
+        InputStream monsterFile;
+        try {
+            monsterFile = new FileInputStream("server/src/monsters.json");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+        InputStream roomFile;
+        try {
+            roomFile = new FileInputStream("server/src/rooms.json");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            try {
+                monsterFile.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            return;
+        }
         JsonReader monsterReader = Json.createReader(monsterFile);
         JsonReader roomReader = Json.createReader(roomFile);
         JsonObject monsterObject = monsterReader.readObject();
@@ -277,16 +296,16 @@ public class Game {
         }
     }
 
-    public Response useBasicAttack(int playerID) throws Exception {
+    public Response useBasicAttack(int playerID) {
         Player p = getPlayer(playerID);
         return useAttack(p, p.getBasicAttack());
     }
-    public Response useSpecialAttack(int playerID) throws Exception {
+    public Response useSpecialAttack(int playerID) {
         Player p = getPlayer(playerID);
         return useAttack(p, p.getSpecialAttack());
     }
 
-    private Response useAttack(Player p, Attack a) throws Exception {
+    private Response useAttack(Player p, Attack a) {
         Response response = new Response();
         if (p.getCurrentRoom().getClass() != FightRoom.class) {
             return response;
