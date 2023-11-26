@@ -92,11 +92,11 @@ public class Player extends Entity {
             response.setResult(false);
             return response;
         }
-        this.money -= item.getCost();
         response.combineResponse(item.buy());
         if (!response.getResult()) {
             return response;
         }
+        this.money -= item.getCost();
         collectItem(item);
         return response;
     }
