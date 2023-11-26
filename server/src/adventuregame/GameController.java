@@ -1,13 +1,19 @@
 package adventuregame;
 
 import adventuregame.Entity.Player;
+import adventuregame.Response.Action;
+import adventuregame.Room.FightRoom;
+import adventuregame.Room.Room;
 import adventuregame.Room.ShopRoom;
 
 public class GameController {
     Game game;
+    GameView view;
 
     public GameController() {
         game = Game.instance();
+        view = new GameView();
+        view.start();
     }
     
     public void startNewGame(int playerID) {
@@ -16,29 +22,52 @@ public class GameController {
         game.nextRoom(p);
     }
 
-    public Response useBasicAttack(int playerID) {
+    public void useBasicAttack(int playerID) {
         Player p = game.getPlayer(playerID);
-        return game.useAttack(p, p.getBasicAttack());
+        Response response = game.useAttack(p, p.getBasicAttack());
+        view.displayMessage(response);
     }
-    public Response useSpecialAttack(int playerID) {
+    public void useSpecialAttack(int playerID) {
         Player p = game.getPlayer(playerID);
-        return game.useAttack(p, p.getSpecialAttack());
+        Response response = game.useAttack(p, p.getSpecialAttack());
+        view.displayMessage(response);
     }
     
-    public Response buyItem(int playerID, int position) {
+    public void buyItem(int playerID, int position) {
         Player p = game.getPlayer(playerID);
-        Response response = new Response();
         if (p.getCurrentRoom().getClass() != ShopRoom.class) {
-            return response;
+            return;
         }
         ShopRoom room = (ShopRoom) p.getCurrentRoom();
         
-        return p.buyItem(room.getItem(position));
+        Response response = p.buyItem(room.getItem(position));
+        view.displayMessage(response);
     }
     
-    public Response nextRoom(int playerID) {
+    public void nextRoom(int playerID) {
         Player p = game.getPlayer(playerID);
-        return game.nextRoom(p);
+        Response message = new Response();
+        Response res = game.nextRoom(p);
+        Room room = p.getCurrentRoom();
+        if (res.getNextAction() == Action.ATTACK) {
+            message.addMessage("This room contains a monster! You must defeat it to progress.");
+            view.setFightRoom((FightRoom)room);
+        } else if (res.getNextAction() == Action.SHOP) {
+            message.addMessage("You stumbled upon a shop. Select any items you would like to buy or click Next Room to progress.");
+            view.setShopRoom((ShopRoom)room);
+        } else if (res.getNextAction() == Action.HEAL) {
+            message.addMessage("Suddenly, you feel revitalized. Click Next Room to progress.");
+            view.setHealRoom();
+        } else if (res.getNextAction() == Action.NEXT_ROOM) {
+            message.addMessage("Click Next Room to progress.");
+            view.setNextRoom();
+        } else if (res.getNextAction() == Action.GAME_OVER) {
+            message.addMessage("You have been defeated...");
+            view.setGameOver();
+        } else {
+            message.addMessage("error");
+        }
+        view.displayMessage(message);
     }
     
     
