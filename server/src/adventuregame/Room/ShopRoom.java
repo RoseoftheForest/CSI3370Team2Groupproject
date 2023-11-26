@@ -22,4 +22,8 @@ public class ShopRoom extends Room {
     public ShopItem getItem(int position) {
         return items.get(position);
     }
+
+    public int getItemCount() {
+        return items.size();
+    }
 }
