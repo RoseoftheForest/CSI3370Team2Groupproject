@@ -399,7 +399,7 @@ public class Game {
         Response response = new Response();
         player.incrementDepth();
         Room nextRoom = getValidRoom(player.getDepth()).deepCopy();
-        player.setCurrentRoom(getValidRoom(player.getDepth()).deepCopy());
+        player.setCurrentRoom(nextRoom);
         if (nextRoom.getClass() == FightRoom.class) {
             response.setNextAction(Action.ATTACK);
         } else if (nextRoom.getClass() == ShopRoom.class) {
