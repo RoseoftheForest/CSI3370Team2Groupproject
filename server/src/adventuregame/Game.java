@@ -54,8 +54,8 @@ public class Game {
     public enum PlayerClass {
         FIGHTER
     }
-    public static int MAX_TIER = 3;
-    public static int MIN_TIER = 1;
+    public final static int MAX_TIER = 3;
+    public final static int MIN_TIER = 1;
 
 
     private ArrayList<Room> rooms;

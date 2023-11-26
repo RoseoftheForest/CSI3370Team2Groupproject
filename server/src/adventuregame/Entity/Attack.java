@@ -11,7 +11,7 @@ public class Attack {
     private double maxVariation;
     private Random random;
     private Type attackType;
-    private static double DAMAGE_MULTIPLIER = 5.0;
+    private final static double DAMAGE_MULTIPLIER = 5.0;
     public static enum Type {
         MAGIC, PHYSICAL, TRUE
     }

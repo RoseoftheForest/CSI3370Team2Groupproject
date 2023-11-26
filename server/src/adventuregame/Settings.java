@@ -6,10 +6,10 @@ import adventuregame.Game.TextSizeOption;
 import adventuregame.Game.TextSpeedOption;
 
 public class Settings {
-    private static TextSpeedOption DEFAULT_TEXT_SPEED = adventuregame.Game.TextSpeedOption.NORMAL;
-    private static TextSizeOption DEFAULT_TEXT_SIZE = adventuregame.Game.TextSizeOption.MEDIUM;
-    private static SoundOption DEFAULT_VOLUME = adventuregame.Game.SoundOption.VOLUME5;
-    private static BackgroundColor DEFAULT_BACKGROUND_COLOR = adventuregame.Game.BackgroundColor.BLACK;
+    private final static TextSpeedOption DEFAULT_TEXT_SPEED = adventuregame.Game.TextSpeedOption.NORMAL;
+    private final static TextSizeOption DEFAULT_TEXT_SIZE = adventuregame.Game.TextSizeOption.MEDIUM;
+    private final static SoundOption DEFAULT_VOLUME = adventuregame.Game.SoundOption.VOLUME5;
+    private final static BackgroundColor DEFAULT_BACKGROUND_COLOR = adventuregame.Game.BackgroundColor.BLACK;
 
     TextSpeedOption textSpeed;
     TextSizeOption textSize;

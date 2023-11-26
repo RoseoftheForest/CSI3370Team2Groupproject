@@ -23,6 +23,7 @@ public class GameView extends JFrame {
     private int health = 100;
     private int maxHealth = 100;
     
+    public final static Color BACKGROUND_COLOR = new Color(0x222222);
     public GameView() {
         game = Game.instance();
         
@@ -35,6 +36,7 @@ public class GameView extends JFrame {
         // Set basic layout
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(0x222222));
+        mainPanel.setBackground(BACKGROUND_COLOR);
         setContentPane(mainPanel);
 
         // Create top panel for player stats and health
@@ -97,12 +99,12 @@ public class GameView extends JFrame {
         setVisible(true);
     }
 
-    public static Color HEALTHBAR_GREEN = new Color(0x54b846);
-    public static Color HEALTHBAR_LIGHT_GREEN = new Color(0x90c73f);
-    public static Color HEALTHBAR_YELLOW = new Color(0xe7dd36);
-    public static Color HEALTHBAR_ORANGE = new Color(0xee9f2f);
-    public static Color HEALTHBAR_RED = new Color(0xd22124);
-    public static Color HEALTHBAR_DARK_RED = new Color(0x791313);
+    public final static Color HEALTHBAR_GREEN = new Color(0x54b846);
+    public final static Color HEALTHBAR_LIGHT_GREEN = new Color(0x90c73f);
+    public final static Color HEALTHBAR_YELLOW = new Color(0xe7dd36);
+    public final static Color HEALTHBAR_ORANGE = new Color(0xee9f2f);
+    public final static Color HEALTHBAR_RED = new Color(0xd22124);
+    public final static Color HEALTHBAR_DARK_RED = new Color(0x791313);
     public void updatePlayerHealth(int health, int maxHealth) {
         playerHealth.setText("Player Health: " + health + " / " + maxHealth);
         healthBar.setValue(health);
