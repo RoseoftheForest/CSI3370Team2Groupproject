@@ -8,7 +8,7 @@ public class Response {
     private Action nextAction;
 
     public static enum Action {
-        GAME_OVER, ATTACK, NEXT_ROOM, SHOP
+        GAME_OVER, ATTACK, NEXT_ROOM, SHOP, HEAL
     }
 
     public Response() {
