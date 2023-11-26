@@ -65,7 +65,6 @@ public class Game {
     private ArrayList<Monster> monsters;
     private static Game uniqueInstance = null;
     
-
     public static Game instance() {
         if (uniqueInstance == null) {
             uniqueInstance = new Game();
@@ -186,106 +185,49 @@ public class Game {
         players.removeIf(p -> (p.getID() == playerID));
     }
 
-    public void startNewGame(int playerID) {
-        Player p = getPlayer(playerID);
-        p.reset();
-        nextRoom(playerID);
+    public Response nextRoom(Player player) {
+        Response response = new Response();
+        player.incrementDepth();
+        Room nextRoom = getValidRoom(player.getDepth()).deepCopy();
+        player.setCurrentRoom(nextRoom);
+        if (nextRoom.getClass() == FightRoom.class) {
+            response.setNextAction(Action.ATTACK);
+        } else if (nextRoom.getClass() == ShopRoom.class) {
+            response.setNextAction(Action.SHOP);
+        }
+        return response;
     }
-    
-    // TO BE IMPLEMENTED
-    // Need database functionality
-    public void logIn(int playerID) {
-        Player p = getPlayer(playerID); // attempt to load player from existing memory
-        if (p != null) {
-            if (!p.isLoggedIn()) {
-                p.logIn();
+    public Room getValidRoom(int depth) {
+        if (rooms.size() < 1) {
+            return null;
+        }
+        
+        ArrayList<Room> validRooms = new ArrayList<Room>();
+        for (int i = 0; i < rooms.size(); i++) {
+            if (rooms.get(i).isWithinDepth(depth)) {
+                validRooms.add(rooms.get(i));
             }
-            return;
         }
-
-        // otherwise, search database for player
-        // otherwise, create new player, and save in database
-    }
-    public void logOut(int playerID) {
-        Player p = getPlayer(playerID);
-        if (p == null || !p.isLoggedIn()) {return;} // player is not logged in
-        p.logOut();
-    }
-    public void loadGame(int playerID) {
-        deletePlayer(playerID);
-        // load player's data here
-        Player player = new Player(playerID, "Placeholder");
-        player.setDepth(0);
-        player.setMoney(0);
-        player.setHealth(0);
-        player.setClass(null);
-        player.setSettings(null);
-        player.setStats(null);
-        player.setCurrentRoom(getRoom(0));
-    }
-    public void saveGame(int playerID) {
-        Player player = getPlayer(playerID);
-        if (player == null) {
-            return;
+        if (validRooms.size() < 1) {
+            return rooms.get(0); // if there were no valid rooms, send to room 0
         }
-        String name = player.getName();
-        int depth = player.getDepth();
-        int money = player.getMoney();
-        int health = player.getHealth();
-        int playerClass = player.getPlayerClass().ordinal();
-        int currentRoomID = player.getCurrentRoom().getID();
-        // save player data here
-        saveSettings(player);
-        saveStats(player);
+        Random rand = new Random();
+        return validRooms.get(rand.nextInt(validRooms.size()));
     }
-    // may need to remove Settings argument in favor of json
-    public void selectSettings(int playerID, Settings settings) {
-        Player p = getPlayer(playerID);
-        if (p == null) {return;}
-        p.setSettings(settings);
+    public Room getRoom(int id) {
+        for (int i = 0; i < rooms.size(); i++) {
+            if (rooms.get(i).getID() == id) {
+                return rooms.get(i);
+            }
+        }
+        return rooms.get(0);
     }
-    public void saveSettings(Player player) {
-        Settings settings = player.getSettings();
-        int backgroundColor = settings.getBackgroundColor().ordinal();
-        int textSize = settings.getTextSize().ordinal();
-        int textSpeed = settings.getTextSpeed().ordinal();
-        int volume = settings.getVolume().ordinal();
-        int playerID = player.getID();
-        // save settings here
-    }
-    public void saveStats(Player player) {
-        Stats stats = player.getStats();
-        int maxHealth = stats.getMaxHealth();
-        int phyAtk = stats.getPhyAtk();
-        int magAtk = stats.getMagicAtk();
-        int phyDef = stats.getPhyDef();
-        int magDef = stats.getMagicDef();
-        int playerID = player.getID();
-        // save stats in database for the player
-    }
-    
-    // TO BE IMPLEMENTED
-    // Should return the default settings if the player hasn't modified the settings, or whatever their settings were if they have saved settings.
-    public void loadSettings(int playerID) {
-        Player p = getPlayer(playerID);
-        if (p == null) {return;}
-        p.setSettings(new Settings());
-    }
-    
-
-    // public void dropItem(Monster monster, Player player) {
-    //     List<Item> items = getItemsByTier(monster.getTier());
-    //     Random rand = new Random();
-    //     Item item = items.get(rand.nextInt(items.size()));
-    //     player.collectItem(item);
-    // }
 
     public Item getItem(Monster monster) {
         List<Item> items = getItemsByTier(monster.getTier());
         Random rand = new Random();
         return items.get(rand.nextInt(items.size()));
     }
-
     public List<Item> getItemsByTier(int tier) {
         if (tier == 3) {
             return tier3Items;
@@ -296,16 +238,8 @@ public class Game {
         }
     }
 
-    public Response useBasicAttack(int playerID) {
-        Player p = getPlayer(playerID);
-        return useAttack(p, p.getBasicAttack());
-    }
-    public Response useSpecialAttack(int playerID) {
-        Player p = getPlayer(playerID);
-        return useAttack(p, p.getSpecialAttack());
-    }
 
-    private Response useAttack(Player p, Attack a) {
+    public Response useAttack(Player p, Attack a) {
         Response response = new Response();
         if (p.getCurrentRoom().getClass() != FightRoom.class) {
             return response;
@@ -341,116 +275,36 @@ public class Game {
         response.setNextAction(Action.GAME_OVER);
         return response;
     }
-
     public void restart(int playerID) {
         Player p = getPlayer(playerID);
         p.reset();
         // NEEDS MORE IMPLEMENTATION
     }
 
-    // public void basicAttack(int playerID) {
-    //     Player p = getPlayer(playerID);
-    //     if (p.getCurrentRoom().getClass() != FightRoom.class) {
-    //         return;
-    //     }
-    //     FightRoom room = (FightRoom) p.getCurrentRoom();
-        
-    //     int playerDamage = p.useBasicAttack(room.getMonster());
-    //     System.out.println("Damage: " + playerDamage);
-    //     if (!room.getMonster().isAlive()) {
-    //         p.defeatMonster(room.getMonster());
-    //         dropItem(room.getMonster(), p);
-    //         // send defeat monster response
-    //         return;
-    //     }
-    //     Damage monsterAttack = room.getMonster().attack(p);
-    //     int monsterDamage = monsterAttack.getAmount();
-    //     String attackName = monsterAttack.getName();
-    //     if (!p.isAlive()) {
-    //         System.out.println("Game Over.");
-    //         p.reset();
-    //         // send game over
-    //     }
-    //     System.out.println("Damage: " + monsterDamage + " | Attack: " + attackName);
-    //     // send the attack that was used by the monster, the damage it did, and the new health of player and monster
-    // }
-    // public void specialAttack(int playerID) {
-    //     Player p = getPlayer(playerID);
-    //     if (p.getCurrentRoom().getClass() != FightRoom.class) {
-    //         return;
-    //     }
-    //     FightRoom room = (FightRoom) p.getCurrentRoom();
-        
-    //     int playerDamage = p.useSpecialAttack(room.getMonster());
-    //     System.out.println("Damage: " + playerDamage);
-    //     if (!room.getMonster().isAlive()) {
-    //         p.defeatMonster(room.getMonster());
-    //         dropItem(room.getMonster(), p);
-    //         // send defeat monster response
-    //         return;
-    //     }
 
-    //     Damage monsterAttack = room.getMonster().attack(p);
-    //     int monsterDamage = monsterAttack.getAmount();
-    //     String attackName = monsterAttack.getName();
-    //     if (!p.isAlive()) {
-    //         System.out.println("Game Over.");
-    //         p.reset();
-    //         // send game over
-    //     }
-    //     System.out.println("Damage: " + monsterDamage + " | Attack: " + attackName);
-
-    //     // send response
-    // }
-    public Response buyItem(int playerID, int position) {
-        Player p = getPlayer(playerID);
-        Response response = new Response();
-        if (p.getCurrentRoom().getClass() != ShopRoom.class) {
-            return response;
-        }
-        ShopRoom room = (ShopRoom) p.getCurrentRoom();
-        
-        return p.buyItem(room.getItem(position));
+    // TO BE IMPLEMENTED
+    public Settings getSetting(int setting) {
+        return new Settings();
     }
 
-    public Response nextRoom(int playerID) {
-        Player player = getPlayer(playerID);
-        Response response = new Response();
-        player.incrementDepth();
-        Room nextRoom = getValidRoom(player.getDepth()).deepCopy();
-        player.setCurrentRoom(nextRoom);
-        if (nextRoom.getClass() == FightRoom.class) {
-            response.setNextAction(Action.ATTACK);
-        } else if (nextRoom.getClass() == ShopRoom.class) {
-            response.setNextAction(Action.SHOP);
-        }
-        return response;
+    public void saveSettings(Player player) {
+        Settings settings = player.getSettings();
+        int backgroundColor = settings.getBackgroundColor().ordinal();
+        int textSize = settings.getTextSize().ordinal();
+        int textSpeed = settings.getTextSpeed().ordinal();
+        int volume = settings.getVolume().ordinal();
+        int playerID = player.getID();
+        // save settings here
+    }
+    public void saveStats(Player player) {
+        Stats stats = player.getStats();
+        int maxHealth = stats.getMaxHealth();
+        int phyAtk = stats.getPhyAtk();
+        int magAtk = stats.getMagicAtk();
+        int phyDef = stats.getPhyDef();
+        int magDef = stats.getMagicDef();
+        int playerID = player.getID();
+        // save stats in database for the player
     }
 
-    public Room getValidRoom(int depth) {
-        if (rooms.size() < 1) {
-            return null;
-        }
-        
-        ArrayList<Room> validRooms = new ArrayList<Room>();
-        for (int i = 0; i < rooms.size(); i++) {
-            if (rooms.get(i).isWithinDepth(depth)) {
-                validRooms.add(rooms.get(i));
-            }
-        }
-        if (validRooms.size() < 1) {
-            return rooms.get(0); // if there were no valid rooms, send to room 0
-        }
-        Random rand = new Random();
-        return validRooms.get(rand.nextInt(validRooms.size()));
-    }
-
-    public Room getRoom(int id) {
-        for (int i = 0; i < rooms.size(); i++) {
-            if (rooms.get(i).getID() == id) {
-                return rooms.get(i);
-            }
-        }
-        return rooms.get(0);
-    }
 }
