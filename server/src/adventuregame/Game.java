@@ -17,6 +17,7 @@ import adventuregame.Entity.Stats;
 import adventuregame.Item.Item;
 import adventuregame.Response.Action;
 import adventuregame.Room.FightRoom;
+import adventuregame.Room.HealRoom;
 import adventuregame.Room.Room;
 import adventuregame.Room.ShopRoom;
 
@@ -194,6 +195,9 @@ public class Game {
             response.setNextAction(Action.ATTACK);
         } else if (nextRoom.getClass() == ShopRoom.class) {
             response.setNextAction(Action.SHOP);
+        } else if (nextRoom.getClass() == HealRoom.class) {
+            response.setNextAction(Action.HEAL);
+            player.heal();
         }
         return response;
     }
