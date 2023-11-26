@@ -87,7 +87,8 @@ public class Player extends Entity {
     public Response buyItem(ShopItem item) {
         Response response = new Response();
         response.setNextAction(Action.SHOP);
-        if (getMoney() < item.getCost()) {
+        int cost = item.getCost();
+        if (getMoney() < cost) {
             response.addMessage("You don't have enough money to buy that!");
             response.setResult(false);
             return response;
@@ -96,9 +97,13 @@ public class Player extends Entity {
         if (!response.getResult()) {
             return response;
         }
-        this.money -= item.getCost();
+        spendMoney(cost);
         collectItem(item);
         return response;
+    }
+
+    public void spendMoney(int amount) {
+        this.money -= amount;
     }
 
     public void collectItem(Item item) {
