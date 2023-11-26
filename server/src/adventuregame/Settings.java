@@ -35,4 +35,8 @@ public class Settings {
     public BackgroundColor getBackgroundColor() {
         return this.backgroundColor;
     }
+
+    public void setSetting(int value) {
+
+    }
 }
