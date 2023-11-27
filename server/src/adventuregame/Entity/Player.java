@@ -111,13 +111,14 @@ public class Player extends Entity {
             return;
         }
         getStats().applyModifiers(item.getModifiers());
+        heal(item.getModifiers().getMaxHealth());
     }
 
     public Response defeatMonster(Monster monster) {
         Response response = new Response();
         int droppedMoney = monster.getDroppedMoney();
         addMoney(droppedMoney);
-        response.addMessage(monster.getName() + " dropped " + droppedMoney + " coins. You now have " + getMoney() + " coins");
+        response.addMessage(monster.getName() + " dropped " + droppedMoney + "g. You now have " + getMoney() + "g");
         Game game = Game.instance();
         Item droppedItem = game.getItem(monster);
         collectItem(droppedItem);
