@@ -1,22 +1,35 @@
 {
+    "types": {
+        "0": "FightRoom",
+        "1": "ShopRoom",
+        "2": "HealRoom"
+    },
     "rooms": [
         {
             "id": 1, 
+            "type": 0,
+            "monster": 1,
             "minDepth": 1,
             "maxDepth": 5
         },
         {
             "id": 2,
+            "type": 0,
+            "monster": 2,
             "minDepth": 1,
             "maxDepth": 5
         },
         {
             "id": 3,
+            "type": 0,
+            "monster": 0,
             "minDepth": 2,
             "maxDepth": 5
         },
         {
             "id": 4,
+            "type": 0,
+            "monster": 3,
             "minDepth": 2,
             "maxDepth": 5
         }
