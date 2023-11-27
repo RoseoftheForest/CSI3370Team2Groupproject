@@ -5,8 +5,8 @@ import adventuregame.Entity.Monster;
 public class FightRoom extends Room {
     private Monster monster;
     
-    public FightRoom(int id, int min_depth, int max_depth, Monster monster) {
-        super(id, min_depth, max_depth);
+    public FightRoom(int id, int minDepth, int maxDepth, Monster monster) {
+        super(id, minDepth, maxDepth);
         this.monster = monster;
     }
 
