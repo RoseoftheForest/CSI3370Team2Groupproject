@@ -76,4 +76,13 @@ public class Stats {
         str += "Mag Def: " + getMagicDef() + "\n";
         return str;
     }
+    public String stringify(String deliminator) {
+        String str = "";
+        str += "HP: " + getMaxHealth() + deliminator;
+        str += "Phy Atk: " + getPhyAtk() + deliminator;
+        str += "Mag Atk: " + getMagicAtk() + deliminator;
+        str += "Phy Def: " + getPhyDef() + deliminator;
+        str += "Mag Def: " + getMagicDef() + deliminator;
+        return str;
+    }
 }
