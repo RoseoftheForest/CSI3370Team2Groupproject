@@ -1,0 +1,60 @@
+{
+    "items": [
+        {
+            "id": 1, 
+            "name": "Health Potion",
+            "description": "Increases max health by 100",
+            "modifiers": [0, 0, 0, 0, 100],
+            "tier": 1,
+            "shopItem": "false"
+        },
+        {
+            "id": 2, 
+            "name": "Super Health Potion",
+            "description": "Increases max health by 100",
+            "modifiers": [0, 0, 0, 0, 200],
+            "tier": 2,
+            "shopItem": "false"
+        },
+        {
+            "id": 3, 
+            "name": "Knife",
+            "description": "Increases physical attack by 5",
+            "modifiers": [5, 0, 0, 0, 0],
+            "tier": 1,
+            "shopItem": "false"
+        },
+        {
+            "id": 4, 
+            "name": "Wand",
+            "description": "Increases magic attack 10",
+            "modifiers": [0, 10, 0, 0, 0],
+            "tier": 2,
+            "shopItem": "false"
+        },
+        {
+            "id": 5, 
+            "name": "Talisman",
+            "description": "Increases magic defense by 10",
+            "modifiers": [0, 0, 0, 0, 100],
+            "tier": 2,
+            "shopItem": "false"
+        },
+        {
+            "id": 6, 
+            "name": "Metal Shield",
+            "description": "Increases physical defense by 20",
+            "modifiers": [0, 0, 20, 0, 0],
+            "tier": 3,
+            "shopItem": "false"
+        },
+        {
+            "id": 7, 
+            "name": "Sword",
+            "description": "Increases physical attack by 25",
+            "modifiers": [25, 0, 0, 0, 0],
+            "tier": 3,
+            "shopItem": "false"
+        }
+    ]
+}

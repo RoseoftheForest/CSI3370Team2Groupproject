@@ -10,14 +10,14 @@
             "type": 0,
             "monster": 1,
             "minDepth": 1,
-            "maxDepth": 5
+            "maxDepth": 3
         },
         {
             "id": 2,
             "type": 0,
             "monster": 2,
             "minDepth": 1,
-            "maxDepth": 5
+            "maxDepth": 3
         },
         {
             "id": 3,
@@ -32,6 +32,27 @@
             "monster": 3,
             "minDepth": 2,
             "maxDepth": 5
+        },
+        {
+            "id": 5,
+            "type": 0,
+            "monster": 5,
+            "minDepth": 2,
+            "maxDepth": 5
+        },
+        {
+            "id": 6,
+            "type": 0,
+            "monster": 4,
+            "minDepth": 4,
+            "maxDepth": 7
+        },
+        {
+            "id": 7,
+            "type": 0,
+            "monster": 6,
+            "minDepth": 4,
+            "maxDepth": 7
         }
     ]
 }

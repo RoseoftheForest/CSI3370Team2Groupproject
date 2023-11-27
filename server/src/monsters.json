@@ -39,6 +39,36 @@
             "description": "A walking talking skeleton",
             "cooldown": 0,
             "stats": [5, 1, 5, 2, 20]
+        },
+        {
+            "id": 4,
+            "name": "Specter",
+            "minMoney": 10,
+            "maxMoney": 20,
+            "tier": 2,
+            "description": "A ghost who haunts the living in the area",
+            "cooldown": 0,
+            "stats": [2, 4, 7, 5, 30]
+        },
+        {
+            "id": 5,
+            "name": "Goblin",
+            "minMoney": 25,
+            "maxMoney": 35,
+            "tier": 3,
+            "description": "A beast that may try to trick you",
+            "cooldown": 0,
+            "stats": [6, 3, 8, 5, 40]
+        },
+        {
+            "id": 6,
+            "name": "Troll",
+            "minMoney": 30,
+            "maxMoney": 40,
+            "tier": 3,
+            "description": "A hairy creature just trying to protect its home",
+            "cooldown": 0,
+            "stats": [8, 2, 6, 2, 50]
         }
     ]
 }
