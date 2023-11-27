@@ -2,23 +2,45 @@
     "rooms": [
         {
             "id": 1, 
+            "type": "fight",
             "minDepth": 1,
-            "maxDepth": 5
+            "maxDepth": 3
         },
         {
             "id": 2,
+            "type": "fight",
             "minDepth": 1,
-            "maxDepth": 5
+            "maxDepth": 3
         },
         {
             "id": 3,
+            "type": "fight",
             "minDepth": 2,
             "maxDepth": 5
         },
         {
             "id": 4,
+            "type": "fight",
             "minDepth": 2,
             "maxDepth": 5
+        },
+        {
+            "id": 5,
+            "type": "fight",
+            "minDepth": 2,
+            "maxDepth": 5
+        },
+        {
+            "id": 6,
+            "type": "fight",
+            "minDepth": 4,
+            "maxDepth": 7
+        },
+        {
+            "id": 7,
+            "type": "fight",
+            "minDepth": 4,
+            "maxDepth": 7
         }
     ]
 }

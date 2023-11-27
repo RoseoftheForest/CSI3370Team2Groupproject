@@ -119,19 +119,14 @@ public class Game {
         int magicDefToAdd;
         int healthToAdd;
 
-        //Loop to add monsters and rooms from json to array lists
-        /*
-         Note: Merging both the rooms and monster initializations into one for loop only works because there are the same number
-         of monsters as there are rooms. As soon as the numbers differ from each other, there will need to be a separate loop
-         for the rooms, but the process will be the same.
-         */
+        //Loop to add monsters from json to array list
         for (int i = 0; i < monsterArray.size(); i++) {
             //Creating a new ArrayList instance each time is necessary as clear() leads to bugs
             ArrayList<Integer> stats = new ArrayList<>();
 
             //Gets the monster and room object at index i
             JsonObject monster = monsterArray.getJsonObject(i);
-            JsonObject room = roomsArray.getJsonObject(i);
+            
 
             //Gets the stats array for the monster at index i
             JsonArray statsArray = monster.getJsonArray("stats");
@@ -154,10 +149,29 @@ public class Game {
             //Create new monster and add it to array list
             monsterToAdd = new Monster(monster.getString("name"), monster.getString("description"), statsToAdd, monster.getInt("minMoney"), monster.getInt("maxMoney"), monster.getInt("tier"));
             monsters.add(monsterToAdd);
-            System.out.println("A monster has been added to the list");
+        }
+
+        //# total rooms = [# of shop rooms] + [# of fight rooms] + [# of heal rooms] 
+        //Variable ensures that the monster array does not reach index out of bounds exception.
+        int arrayShift = 0; 
+
+        //Loop to add rooms from json to array list
+        for (int i = 0; i < roomsArray.size(); i++) {
+            JsonObject room = roomsArray.getJsonObject(i);
 
             //Create new room and add it to array list
-            roomToAdd = new FightRoom(room.getInt("id"), room.getInt("minDepth"), room.getInt("maxDepth"), monsters.get(i));
+            if (room.getString("type").equals("fight")) {
+                roomToAdd = new FightRoom(room.getInt("id"), room.getInt("minDepth"), room.getInt("maxDepth"), monsters.get(i - arrayShift));
+            } else if (room.getString("type").equals("shop")) {
+                //There are no shop rooms right now, but this would allow for one to be added should it be created.
+                roomToAdd = new ShopRoom(room.getInt("id"), room.getInt("minDepth"), room.getInt("maxDepth"));
+                arrayShift++;
+            } else {
+                //There are no heal rooms right now, but this would allow for one to be added should it be created.
+                roomToAdd = new HealRoom(room.getInt("id"), room.getInt("minDepth"), room.getInt("maxDepth"));
+                arrayShift++;
+            }
+            
             rooms.add(roomToAdd);
         }
 
