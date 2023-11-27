@@ -77,6 +77,9 @@ public class Game {
         // initialize items, monsters, and rooms
         monsters = new ArrayList<Monster>();
         rooms = new ArrayList<Room>();
+        tier1Items = new ArrayList<Item>();
+        tier2Items = new ArrayList<Item>();
+        tier3Items = new ArrayList<Item>();
         
         //Reads the json files
         InputStream monsterFile;
@@ -98,16 +101,43 @@ public class Game {
             }
             return;
         }
+        InputStream itemFile;
+        try {
+            itemFile = new FileInputStream("server/src/items.json");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            try {
+                monsterFile.close();
+                roomFile.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } 
+            return;
+        }
         JsonReader monsterReader = Json.createReader(monsterFile);
         JsonReader roomReader = Json.createReader(roomFile);
+        JsonReader itemReader = Json.createReader(itemFile);
         JsonObject monsterObject = monsterReader.readObject();
         JsonObject roomObject = roomReader.readObject();
+        JsonObject itemObject = itemReader.readObject();
+
+        //Close input streams and readers when done with json files
+        try {
+            monsterFile.close();
+            roomFile.close();
+            itemFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         monsterReader.close();
         roomReader.close();
+        itemReader.close();
         
-        //Gets the monsters and rooms arrays from the json
+        //Gets the monsters, rooms, and items arrays from the json
         JsonArray monsterArray = monsterObject.getJsonArray("monsters");
         JsonArray roomsArray = roomObject.getJsonArray("rooms");
+        JsonArray itemsArray = itemObject.getJsonArray("items");
 
         //Local variables used to hold read information from json
         Monster monsterToAdd;
@@ -124,7 +154,7 @@ public class Game {
             //Creating a new ArrayList instance each time is necessary as clear() leads to bugs
             ArrayList<Integer> stats = new ArrayList<>();
 
-            //Gets the monster and room object at index i
+            //Gets the monster object at index i
             JsonObject monster = monsterArray.getJsonObject(i);
             
 
@@ -149,6 +179,7 @@ public class Game {
             //Create new monster and add it to array list
             monsterToAdd = new Monster(monster.getString("name"), monster.getString("description"), statsToAdd, monster.getInt("minMoney"), monster.getInt("maxMoney"), monster.getInt("tier"));
             monsters.add(monsterToAdd);
+            //System.out.println("Monster of tier " + monster.getInt("tier") + " has been added to the list. Its name is " + monster.getString("name"));
         }
 
         //# total rooms = [# of shop rooms] + [# of fight rooms] + [# of heal rooms] 
@@ -173,14 +204,46 @@ public class Game {
             }
             
             rooms.add(roomToAdd);
+            //System.out.println("Room of type " + room.getString("type") + " has been added to the list. Its id is " + room.getInt("id"));
         }
 
-        tier1Items = new ArrayList<Item>();
-        Item item = new Item(1, "Item1", "", new Stats(0, 0, 0, 0, 100));
-        tier2Items = new ArrayList<Item>();
-        Item item2 = new Item(2, "BIG ITEM", "it's big", new Stats(0, 0, 0, 0, 200));
-        tier1Items.add(item);
-        tier1Items.add(item2);
+        //Loop to add items from json to array list
+        for (int i = 0; i < itemsArray.size(); i++) {
+            //Creating a new ArrayList instance each time is necessary as clear() leads to bugs
+            ArrayList<Integer> modifier = new ArrayList<>();
+
+            //Gets the item item object at index i
+            JsonObject item = itemsArray.getJsonObject(i);
+            
+            //Gets the modifiers array for the item at index i
+            JsonArray modifierArray = item.getJsonArray("modifiers");
+
+            //Loop to add stats to array list
+            for (int j = 0; j < modifierArray.size(); j++) {
+                modifier.add(modifierArray.getInt(j));
+            }
+
+            //Extract the individual modifiers to be put into a Stats object
+            phyAtkToAdd = modifier.get(0);
+            magAtkToAdd = modifier.get(1);
+            phyDefToAdd = modifier.get(2);
+            magicDefToAdd = modifier.get(3);
+            healthToAdd = modifier.get(4);
+
+            //Put the extracted modifiers into a stats object
+            statsToAdd = new Stats(phyAtkToAdd, magAtkToAdd, phyDefToAdd, magicDefToAdd, healthToAdd);
+
+            //Create new item based on tier and add it to appropriate array list
+            //There are no shop items right now. Logic implementation needed.
+            if (item.getInt("tier") == 3) {
+                tier3Items.add(new Item(item.getInt("id"), item.getString("name"), item.getString("description"), statsToAdd));
+            } else if (item.getInt("tier") == 2) {
+                tier2Items.add(new Item(item.getInt("id"), item.getString("name"), item.getString("description"), statsToAdd));
+            } else {
+                tier1Items.add(new Item(item.getInt("id"), item.getString("name"), item.getString("description"), statsToAdd));
+            }
+            //System.out.println("Item of tier " + item.getInt("tier") + " has been added to the list. Its name is " + item.getString("name"));
+        }
 
         players = new ArrayList<Player>();
     }
