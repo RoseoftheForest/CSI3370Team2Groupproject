@@ -19,6 +19,9 @@ public class Response {
     public void addMessage(String message) {
         getMessages().add(message);
     }
+    public int size() {
+        return getMessages().size();
+    }
 
     public ArrayList<String> getMessages() {
         return this.messages;
