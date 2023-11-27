@@ -10,7 +10,6 @@ import java.util.Random;
 import javax.json.*;
 
 import adventuregame.Entity.Attack;
-import adventuregame.Entity.Damage;
 import adventuregame.Entity.Monster;
 import adventuregame.Entity.Player;
 import adventuregame.Entity.Stats;
