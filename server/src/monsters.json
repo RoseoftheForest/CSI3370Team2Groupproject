@@ -58,7 +58,7 @@
             "tier": 3,
             "description": "A beast that may try to trick you",
             "cooldown": 0,
-            "stats": [6, 2, 8, 5, 40]
+            "stats": [6, 3, 8, 5, 40]
         },
         {
             "id": 6,
@@ -68,7 +68,7 @@
             "tier": 3,
             "description": "A hairy creature just trying to protect its home",
             "cooldown": 0,
-            "stats": [8, 6, 2, 2, 50]
+            "stats": [8, 2, 6, 2, 50]
         }
     ]
 }
