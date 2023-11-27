@@ -14,6 +14,7 @@ import adventuregame.Entity.Monster;
 import adventuregame.Entity.Player;
 import adventuregame.Entity.Stats;
 import adventuregame.Item.Item;
+import adventuregame.Item.ShopItem;
 import adventuregame.Response.Action;
 import adventuregame.Room.FightRoom;
 import adventuregame.Room.HealRoom;
@@ -73,9 +74,13 @@ public class Game {
     }
 
     private Game() {
+        players = new ArrayList<Player>();
         // initialize items, monsters, and rooms
         monsters = new ArrayList<Monster>();
         rooms = new ArrayList<Room>();
+        tier1Items = new ArrayList<Item>();
+        tier2Items = new ArrayList<Item>();
+        tier3Items = new ArrayList<Item>();
         
         //Reads the json files
         InputStream monsterFile;
@@ -85,55 +90,57 @@ public class Game {
             e.printStackTrace();
             return;
         }
+        JsonReader monsterReader = Json.createReader(monsterFile);
+        JsonObject monsterObject = monsterReader.readObject();
+        monsterReader.close();
+        //Gets the monsters array from the json
+        JsonArray monsterArray = monsterObject.getJsonArray("monsters");
+        loadMonsters(monsterArray);
+
+
+        loadItems();
+
+
         InputStream roomFile;
         try {
             roomFile = new FileInputStream("server/src/rooms.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            try {
-                monsterFile.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
             return;
         }
-        JsonReader monsterReader = Json.createReader(monsterFile);
         JsonReader roomReader = Json.createReader(roomFile);
-        JsonObject monsterObject = monsterReader.readObject();
         JsonObject roomObject = roomReader.readObject();
-        monsterReader.close();
         roomReader.close();
         
-        //Gets the monsters and rooms arrays from the json
-        JsonArray monsterArray = monsterObject.getJsonArray("monsters");
+        //Gets the rooms array from the json
         JsonArray roomsArray = roomObject.getJsonArray("rooms");
+        JsonObject roomTypes = roomObject.getJsonObject("types");
+        loadRooms(roomsArray, roomTypes);
+    }
 
-        //Local variables used to hold read information from json
-        Monster monsterToAdd;
-        Room roomToAdd;
-        Stats statsToAdd;
-        int phyAtkToAdd;
-        int magAtkToAdd;
-        int phyDefToAdd;
-        int magicDefToAdd;
-        int healthToAdd;
-
-        //Loop to add monsters and rooms from json to array lists
-        /*
-         Note: Merging both the rooms and monster initializations into one for loop only works because there are the same number
-         of monsters as there are rooms. As soon as the numbers differ from each other, there will need to be a separate loop
-         for the rooms, but the process will be the same.
-         */
+    private void loadMonsters(JsonArray monsterArray) {
+        int phyAtk;
+        int mgcAtk;
+        int phyDef;
+        int mgcDef;
+        int maxHealth;
+        Stats monsterStats;
+        Monster monster;
+        String name;
+        String desc;
+        int tier;
+        int minMoney;
+        int maxMoney;
+        
         for (int i = 0; i < monsterArray.size(); i++) {
             //Creating a new ArrayList instance each time is necessary as clear() leads to bugs
             ArrayList<Integer> stats = new ArrayList<>();
 
             //Gets the monster and room object at index i
-            JsonObject monster = monsterArray.getJsonObject(i);
-            JsonObject room = roomsArray.getJsonObject(i);
+            JsonObject monsterObj = monsterArray.getJsonObject(i);
 
             //Gets the stats array for the monster at index i
-            JsonArray statsArray = monster.getJsonArray("stats");
+            JsonArray statsArray = monsterObj.getJsonArray("stats");
 
             //Loop to add stats to array list
             for (int j = 0; j < statsArray.size(); j++) {
@@ -141,33 +148,85 @@ public class Game {
             }
 
             //Extract the individual stats to be put into a Stats object
-            phyAtkToAdd = stats.get(0);
-            magAtkToAdd = stats.get(1);
-            phyDefToAdd = stats.get(2);
-            magicDefToAdd = stats.get(3);
-            healthToAdd = stats.get(4);
+            phyAtk = stats.get(0);
+            mgcAtk = stats.get(1);
+            phyDef = stats.get(2);
+            mgcDef = stats.get(3);
+            maxHealth = stats.get(4);
 
             //Put the extracted stats into a stats object
-            statsToAdd = new Stats(phyAtkToAdd, magAtkToAdd, phyDefToAdd, magicDefToAdd, healthToAdd);
+            monsterStats = new Stats(phyAtk, mgcAtk, phyDef, mgcDef, maxHealth);
+
+            name = monsterObj.getString("name");
+            desc = monsterObj.getString("description");
+            minMoney = monsterObj.getInt("minMoney");
+            maxMoney = monsterObj.getInt("maxMoney");
+            tier = monsterObj.getInt("tier");
 
             //Create new monster and add it to array list
-            monsterToAdd = new Monster(monster.getString("name"), monster.getString("description"), statsToAdd, monster.getInt("minMoney"), monster.getInt("maxMoney"), monster.getInt("tier"));
-            monsters.add(monsterToAdd);
-            System.out.println("A monster has been added to the list");
+            monster = new Monster(name, desc, monsterStats, minMoney, maxMoney, tier);
 
-            //Create new room and add it to array list
-            roomToAdd = new FightRoom(room.getInt("id"), room.getInt("minDepth"), room.getInt("maxDepth"), monsters.get(i));
-            rooms.add(roomToAdd);
+            monsters.add(monster);
+            System.out.println("Monster: " + name + " loaded.\n\tDescription: " + desc + "\n\tStats: " + monsterStats.stringify("\n\t"));
         }
+    }
+    private void loadRooms(JsonArray roomsArray, JsonObject roomTypes) {
+        int typeID;
+        String type;
+        int id;
+        int minDepth;
+        int maxDepth;
+        for (int i = 0; i < roomsArray.size(); i++) {
+            //Gets the room object at index i
+            JsonObject roomObj = roomsArray.getJsonObject(i);
 
+            id = roomObj.getInt("id");
+            minDepth = roomObj.getInt("minDepth");
+            maxDepth = roomObj.getInt("maxDepth");
+            typeID = roomObj.getInt("type");
+            type = roomTypes.getString("" + typeID);
+
+            if (type.equals(FightRoom.class.getSimpleName())) {
+                int monsterID = roomObj.getInt("monster");
+                Monster monster = getMonster(monsterID);
+                FightRoom fightRoom = new FightRoom(monsterID, minDepth, maxDepth, monster);
+                System.out.println("Loaded FightRoom: \n\tID: " + id + " | minDepth: " + minDepth + " | maxDepth: " + maxDepth + "\n\tMonster: " + monster.getName() + " (" + monsterID + ")");
+                rooms.add(fightRoom);
+                System.out.println("Added FightRoom (" + id + ") to Game\n");
+            } else if (type.equals(ShopRoom.class.getSimpleName())) {
+                ShopRoom shopRoom = new ShopRoom(id, minDepth, maxDepth);
+                System.out.println("Loaded ShopRoom.\n\tID: " + id + " | minDepth: " + minDepth + " | maxDepth: " + maxDepth);
+                JsonArray items = roomObj.getJsonArray("items");
+                for (int j = 0; j < items.size(); j++) {
+                    JsonObject itemObj = items.getJsonObject(j);
+                    int itemID = itemObj.getInt("id");
+                    int itemCost = itemObj.getInt("cost");
+                    int itemQty = itemObj.getInt("quantity");
+                    Item item = getItem(itemID);
+                    ShopItem shopItem = new ShopItem(itemID, item.getName(), item.getDescription(), item.getModifiers(), itemCost);
+                    shopItem.setQuantity(itemQty);
+                    System.out.println("Loaded ShopItem:\n\t" + "Item: " + item.getName() + " (" + itemID + ") | Cost: " + itemCost + " | Quantity: " + itemQty);
+                    shopRoom.addItem(shopItem);
+                    System.out.println("Added ShopItem (" + itemID + ") to ShopRoom");
+                }
+                rooms.add(shopRoom);
+                System.out.println("Added ShopRoom (" + id + ") to Game");
+                
+            } else if (type.equals(HealRoom.class.getSimpleName())) {
+                HealRoom healRoom = new HealRoom(id, minDepth, maxDepth);
+                System.out.println("Loaded HealRoom.\n\tID: " + id + " | minDepth: " + minDepth + " | maxDepth: " + maxDepth);
+                rooms.add(healRoom);
+                System.out.println("Added HealRoom (" + id + ") to Game");
+            }
+        }
+    }
+    private void loadItems() {
         tier1Items = new ArrayList<Item>();
         Item item = new Item(1, "Item1", "", new Stats(0, 0, 0, 0, 100));
         tier2Items = new ArrayList<Item>();
         Item item2 = new Item(2, "BIG ITEM", "it's big", new Stats(0, 0, 0, 0, 200));
         tier1Items.add(item);
         tier1Items.add(item2);
-
-        players = new ArrayList<Player>();
     }
 
     public Player getPlayer(int playerID) {
@@ -226,6 +285,26 @@ public class Game {
         return rooms.get(0);
     }
 
+    public Monster getMonster(int id) {
+        for (int i = 0; i < monsters.size(); i++) {
+            if (monsters.get(i).getID() == id) {
+                return monsters.get(i);
+            }
+        }
+        return monsters.get(0);
+    }
+
+    public Item getItem(int id) {
+        for (int i = 1; i <= MAX_TIER; i++) {
+            List<Item> items = getItemsByTier(i);
+            for (int j = 0; j < items.size(); j++) {
+                if (items.get(j).getID() == id) {
+                    return items.get(j);
+                }
+            }
+        }
+        return getItemsByTier(1).get(0);
+    }
     public Item getItem(Monster monster) {
         List<Item> items = getItemsByTier(monster.getTier());
         Random rand = new Random();
