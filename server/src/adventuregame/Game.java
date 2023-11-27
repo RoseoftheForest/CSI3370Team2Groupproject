@@ -283,8 +283,10 @@ public class Game {
         }
         return null;
     }
-    public void addPlayer(String name) {
-        players.add(new Player(players.size()+1,name));
+    public int addPlayer(String name) {
+        int id = players.size()+1;
+        players.add(new Player(id,name));
+        return id;
     }
     public void deletePlayer(int playerID) {
         players.removeIf(p -> (p.getID() == playerID));
