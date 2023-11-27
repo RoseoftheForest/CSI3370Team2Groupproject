@@ -12,8 +12,9 @@ public class Monster extends Entity {
     private int tier;
     private String description;
 
-    public Monster(String name, String description, Stats stats, int minMoney, int maxMoney, int tier) {
+    public Monster(int id, String name, String description, Stats stats, int minMoney, int maxMoney, int tier) {
         super(name, stats);
+        this.id = id;
         this.description = description;
         if (minMoney > maxMoney) {
             this.maxMoney = minMoney;
@@ -30,7 +31,7 @@ public class Monster extends Entity {
     }
 
     public Monster deepCopy() {
-        return new Monster(getName(), getDescription(), getStats(), this.minMoney, this.maxMoney, getTier());
+        return new Monster(getID(), getName(), getDescription(), getStats(), this.minMoney, this.maxMoney, getTier());
     }
 
     public int getTier() {
