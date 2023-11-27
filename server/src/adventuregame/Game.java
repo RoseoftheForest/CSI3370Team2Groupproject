@@ -191,7 +191,7 @@ public class Game {
 
             if (type.equals(FightRoom.class.getSimpleName())) {
                 int monsterID = roomObj.getInt("monster");
-                Monster monster = getMonster(monsterID);
+                Monster monster = getMonster(monsterID).deepCopy();
                 FightRoom fightRoom = new FightRoom(monsterID, minDepth, maxDepth, monster);
                 System.out.println("Loaded FightRoom: \n\tID: " + id + " | minDepth: " + minDepth + " | maxDepth: " + maxDepth + "\n\tMonster: " + monster.getName() + " (" + monsterID + ")");
                 rooms.add(fightRoom);
