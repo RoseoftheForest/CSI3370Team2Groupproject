@@ -88,6 +88,7 @@ public class Game {
         // Load the monsters from the array
         loadMonsters(monsterArray);
 
+
         JsonObject itemsObject = loadJson("server/src/items.json");
         JsonArray itemsArray = itemsObject.getJsonArray("items");
         loadItems(itemsArray);
@@ -129,6 +130,7 @@ public class Game {
         int maxHealth;
         Stats monsterStats;
         Monster monster;
+        int id;
         String name;
         String desc;
         int tier;
@@ -160,6 +162,7 @@ public class Game {
             //Put the extracted stats into a stats object
             monsterStats = new Stats(phyAtk, mgcAtk, phyDef, mgcDef, maxHealth);
 
+            id = monsterObj.getInt("id");
             name = monsterObj.getString("name");
             desc = monsterObj.getString("description");
             minMoney = monsterObj.getInt("minMoney");
@@ -167,10 +170,10 @@ public class Game {
             tier = monsterObj.getInt("tier");
 
             //Create new monster and add it to array list
-            monster = new Monster(name, desc, monsterStats, minMoney, maxMoney, tier);
+            monster = new Monster(id, name, desc, monsterStats, minMoney, maxMoney, tier);
 
             monsters.add(monster);
-            System.out.println("Monster: " + name + " loaded.\n\tDescription: " + desc + "\n\tStats: " + monsterStats.stringify("\n\t"));
+            System.out.println("Monster: " + name + "(" + id + ") loaded.\n\tDescription: " + desc + "\n\tStats: " + monsterStats.stringify("\n\t"));
         }
     }
     private void loadRooms(JsonArray roomsArray, JsonObject roomTypes) {
