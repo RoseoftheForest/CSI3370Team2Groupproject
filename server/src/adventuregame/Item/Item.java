@@ -29,21 +29,21 @@ public class Item {
     }
 
     public String stringifyModifiers() {
-        String str = "";
+        String str = "\n\t";
         if (getModifiers().getMaxHealth() > 0) {
-            str += "+" + getModifiers().getMaxHealth() + " Max HP\n";
+            str += "+" + getModifiers().getMaxHealth() + " Max HP\n\t";
         }
         if (getModifiers().getPhyAtk() > 0) {
-            str += "+" + getModifiers().getPhyAtk() + " Phy Atk\n";
+            str += "+" + getModifiers().getPhyAtk() + " Phy Atk\n\t";
         }
         if (getModifiers().getMagicAtk() > 0) {
-            str += "+" + getModifiers().getMagicAtk() + " Mag Atk\n";
+            str += "+" + getModifiers().getMagicAtk() + " Mag Atk\n\t";
         }
         if (getModifiers().getPhyDef() > 0) {
-            str += "+" + getModifiers().getPhyDef() + " Phy Def\n";
+            str += "+" + getModifiers().getPhyDef() + " Phy Def\n\t";
         }
         if (getModifiers().getMagicDef() > 0) {
-            str += "+" + getModifiers().getMagicDef() + " Mag Def\n";
+            str += "+" + getModifiers().getMagicDef() + " Mag Def\n\t";
         }
         return str;
     }
