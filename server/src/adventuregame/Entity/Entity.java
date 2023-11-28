@@ -16,8 +16,8 @@ public class Entity {
         this.stats = stats;
         heal();
         setAliveStatus();
-        setBasicAttack(new Attack("", Type.PHYSICAL, 2));
-        setSpecialAttack(new Attack("", Type.MAGIC, 2));
+        setBasicAttack(new Attack("Basic Attack", Type.PHYSICAL, 2));
+        setSpecialAttack(new Attack("Special Attack", Type.MAGIC, 2));
     }
 
     public String getName() {
