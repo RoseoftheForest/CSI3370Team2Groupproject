@@ -11,7 +11,7 @@
         {
             "id": 2, 
             "name": "Super Health Potion",
-            "description": "Increases max health by 100",
+            "description": "Increases max health by 200",
             "modifiers": [0, 0, 0, 0, 200],
             "tier": 2,
             "shopItem": "false"
@@ -36,7 +36,7 @@
             "id": 5, 
             "name": "Talisman",
             "description": "Increases magic defense by 10",
-            "modifiers": [0, 0, 0, 0, 100],
+            "modifiers": [0, 0, 0, 10, 0],
             "tier": 2,
             "shopItem": "false"
         },
