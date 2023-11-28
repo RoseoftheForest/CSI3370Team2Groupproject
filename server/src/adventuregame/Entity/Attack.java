@@ -17,6 +17,7 @@ public class Attack {
     }
 
     public Attack(String name, Type type, double baseDamage) {
+        this.name = name;
         this.attackType = type;
         this.damage = baseDamage;
         this.minVariation = 1.0;
