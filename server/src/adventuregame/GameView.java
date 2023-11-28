@@ -1,5 +1,6 @@
 package adventuregame;
 
+import javax.print.DocFlavor;
 import javax.swing.*;
 
 import adventuregame.Entity.Monster;
@@ -65,7 +66,7 @@ public class GameView extends JFrame {
 
         // Initialize room for room information
         roomPanel = new JPanel();
-        roomPanel.setBackground(Color.BLUE);
+        // roomPanel.setBackground(BACKGROUND_COLOR);
         roomPanel.setPreferredSize(new Dimension(ROOM_DIMENSIONS));
 
         controlPanel = new JPanel(new FlowLayout());
@@ -97,6 +98,8 @@ public class GameView extends JFrame {
         System.out.println("Added monster to view");
         controlPanel.add(basicAttackBtn());
         controlPanel.add(specialAttackBtn());
+        controlPanel.add(menuBtn());
+
         controlPanel.setVisible(true);
         controlPanel.revalidate();
         infoPanel.revalidate();
@@ -108,15 +111,30 @@ public class GameView extends JFrame {
     public void displayMessage(Response message) {
         resetRoomPanel();
         
-        JPanel textPanel = new JPanel(new GridLayout(message.size()/2, 2));
+        GridLayout layout = new GridLayout(message.size()/2, 1);
+        JPanel textPanel = new JPanel(layout);
+        
+        JPanel textRow;
         while (message.hasNext()) {
+            textRow = new JPanel(new BorderLayout(50, 20));
+
+            JLabel label = new JLabel();
             String str = message.nextMessage();
             System.out.println(str);
-            JLabel label = new JLabel();
             label.setText(formatLines(str));
-            textPanel.add(label);
+            textRow.add(label, BorderLayout.WEST);
+
+            if (message.hasNext()) {
+                label = new JLabel();
+                str = message.nextMessage();
+                System.out.println(str);
+                label.setText(formatLines(str));
+                textRow.add(label, BorderLayout.EAST);
+            }
+
+            textPanel.add(textRow);
         }
-        roomPanel.add(textPanel);
+        roomPanel.add(textPanel, BorderLayout.CENTER);
         roomPanel.revalidate();
         roomPanel.repaint();
     }
@@ -155,7 +173,15 @@ public class GameView extends JFrame {
         resetControlPanel();
         resetRoomPanel();
         resetInfoPanel();
+        controlPanel.add(menuBtn());
+        controlPanel.revalidate();
+        controlPanel.repaint();
+        JPanel nameInput = new JPanel(new GridLayout(1, 2));
+        //label.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         JTextField nameField = new JTextField();
+        JLabel nameInfo = new JLabel("Type in your name and press Enter: ");
+        nameInput.setBorder(BorderFactory.createEmptyBorder(60, 180, 60, 180));
+        
         nameField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -164,10 +190,11 @@ public class GameView extends JFrame {
                     textField.setText(text.toUpperCase());
                     GameController.newPlayer(text);
                 }
-                
             }
         });
-        infoPanel.add(nameField);
+        nameInput.add(nameInfo);
+        nameInput.add(nameField);
+        infoPanel.add(nameInput);
         infoPanel.revalidate();
         infoPanel.repaint();     
     }
@@ -177,6 +204,9 @@ public class GameView extends JFrame {
         resetRoomPanel();
         resetInfoPanel();
         JLabel title = new JLabel("Rogue Rooms");
+        title.setBorder(BorderFactory.createEmptyBorder(100, 300, 100, 300));
+        title.setFont(new Font("Sans Serif", Font.BOLD, 24));
+        infoPanel.add(title);
         
         JButton start = new JButton("Enter the Dungeon");
         start.addActionListener(new ActionListener() {
@@ -205,7 +235,7 @@ public class GameView extends JFrame {
         buttons.add(settings);
         buttons.add(about);
 
-        controlPanel.add(title, BorderLayout.CENTER);
+        //controlPanel.add(title, BorderLayout.CENTER);
 
         controlPanel.add(buttons, BorderLayout.SOUTH);
         controlPanel.revalidate();
@@ -332,13 +362,18 @@ public class GameView extends JFrame {
         String name = monster.getName();
         String desc = monster.getDescription();
         
-        JLabel monsterName = new JLabel(name);
-        
         JLabel monsterDesc = new JLabel(formatLines(fillLines(desc, 7)));
+
+        JPanel monsterInfo = new JPanel(new GridLayout(1, 2));
+        JLabel monsterName = new JLabel(name);
+        JLabel monsterHealth = new JLabel(health + " / " + maxHealth);
+        monsterInfo.add(monsterName);
+        monsterInfo.add(monsterHealth);
+
         JProgressBar healthBar = healthBar(health, maxHealth);
         
         JPanel monsterPanel = new JPanel(new BorderLayout());
-        monsterPanel.add(monsterName, BorderLayout.NORTH);
+        monsterPanel.add(monsterInfo, BorderLayout.NORTH);
         monsterPanel.add(healthBar, BorderLayout.CENTER);
         monsterPanel.add(monsterDesc, BorderLayout.SOUTH);
         
@@ -348,7 +383,7 @@ public class GameView extends JFrame {
         int lineCount = 1;
         String strCopy = str;
         while(strCopy.contains("\n")) {
-            strCopy.replaceFirst("\n", "");
+            strCopy = strCopy.replaceFirst("\n", "");
             lineCount++;
         }
         for (int i = lineCount; i < lines; i++) {
@@ -363,8 +398,8 @@ public class GameView extends JFrame {
         int maxHealth = player.getStats().getMaxHealth();
         String name = player.getName();
         int money = player.getMoney();
-        String stats = player.getStats().stringify("\n\t");
-        JLabel empty = new JLabel();
+        String stats = player.getStats().stringify("\n");
+        stats = fillLines(stats, 7);
 
         // Player Info
         JPanel playerInfo = new JPanel(new GridLayout(1, 2));
